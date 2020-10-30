@@ -1,9 +1,9 @@
 set autoindent
 set nu
-set tabstop=2
+set tabstop=8
 set softtabstop=0
 set expandtab
-set shiftwidth=2
+set shiftwidth=4
 set smarttab
 set hlsearch
 set nowrapscan
@@ -24,3 +24,5 @@ set laststatus=2
 
 set listchars+=space:␣
 set backspace=indent,eol,start
+
+set tags=tags;/
