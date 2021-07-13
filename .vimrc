@@ -26,3 +26,4 @@ set listchars+=space:␣
 set backspace=indent,eol,start
 
 set tags=tags;/
+set re=0
