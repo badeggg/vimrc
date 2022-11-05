@@ -27,3 +27,6 @@ set backspace=indent,eol,start
 
 set tags=tags;/
 set re=0
+
+" to view man page in vim
+runtime! ftplugin/man.vim
