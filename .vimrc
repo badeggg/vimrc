@@ -30,3 +30,14 @@ set re=0
 
 " to view man page in vim
 runtime! ftplugin/man.vim
+
+call plug#begin('~/.vim/plugged')
+
+" Add vim-gitgutter plugin
+Plug 'airblade/vim-gitgutter'
+
+call plug#end()
+
+" to jump between matching HTML/XML tags
+runtime macros/matchit.vim
+filetype plugin on
