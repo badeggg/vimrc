@@ -41,3 +41,6 @@ call plug#end()
 " to jump between matching HTML/XML tags
 runtime macros/matchit.vim
 filetype plugin on
+
+" no auto comment leader insertion
+autocmd FileType * setlocal formatoptions-=r formatoptions-=o
