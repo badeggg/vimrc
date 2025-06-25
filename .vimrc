@@ -44,3 +44,5 @@ filetype plugin on
 
 " no auto comment leader insertion
 autocmd FileType * setlocal formatoptions-=r formatoptions-=o
+
+colorscheme evening
