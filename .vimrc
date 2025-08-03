@@ -46,3 +46,7 @@ filetype plugin on
 autocmd FileType * setlocal formatoptions-=r formatoptions-=o
 
 colorscheme evening
+
+" This disables the red highlight for underscores inside words.
+hi link markdownError NONE
+
