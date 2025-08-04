@@ -45,8 +45,8 @@ filetype plugin on
 " no auto comment leader insertion
 autocmd FileType * setlocal formatoptions-=r formatoptions-=o
 
-colorscheme evening
+colorscheme desert
+autocmd VimEnter * redraw!
 
 " This disables the red highlight for underscores inside words.
 hi link markdownError NONE
-
