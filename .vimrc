@@ -36,6 +36,9 @@ call plug#begin('~/.vim/plugged')
 " Add vim-gitgutter plugin
 Plug 'airblade/vim-gitgutter'
 
+" Add tagbar plugin
+Plug 'preservim/tagbar'
+
 call plug#end()
 
 " to jump between matching HTML/XML tags
