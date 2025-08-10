@@ -41,6 +41,8 @@ Plug 'preservim/tagbar'
 
 call plug#end()
 
+nmap <F8> :TagbarToggle<CR>
+
 " to jump between matching HTML/XML tags
 runtime macros/matchit.vim
 filetype plugin on
