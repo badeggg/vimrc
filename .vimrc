@@ -39,6 +39,9 @@ Plug 'airblade/vim-gitgutter'
 " Add tagbar plugin
 Plug 'preservim/tagbar'
 
+" Add vim-indentwise plugin, which enable jump between indentations
+Plug 'jeetsukumaran/vim-indentwise'
+
 call plug#end()
 
 nmap <F8> :TagbarToggle<CR>
