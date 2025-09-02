@@ -124,11 +124,11 @@ nnoremap <leader><leader>o :execute FindIndentJump(-1,  1)<CR>
 " Side effect is target line is highlighted since searching, I can not fix
 " this for now.
 vnoremap         <leader>i /<C-R>='\%' . FindIndentJump( 1,  0) . 'l'<CR><CR>
-vnoremap <leader><leader>i /<C-R>='\%' . FindIndentJump(-1,  0) . 'l'<CR><CR>
+vnoremap <leader><leader>i ?<C-R>='\%' . FindIndentJump(-1,  0) . 'l'<CR><CR>
 vnoremap         <leader>u /<C-R>='\%' . FindIndentJump( 1, -1) . 'l'<CR><CR>
-vnoremap <leader><leader>u /<C-R>='\%' . FindIndentJump(-1, -1) . 'l'<CR><CR>
+vnoremap <leader><leader>u ?<C-R>='\%' . FindIndentJump(-1, -1) . 'l'<CR><CR>
 vnoremap         <leader>o /<C-R>='\%' . FindIndentJump( 1,  1) . 'l'<CR><CR>
-vnoremap <leader><leader>o /<C-R>='\%' . FindIndentJump(-1,  1) . 'l'<CR><CR>
+vnoremap <leader><leader>o ?<C-R>='\%' . FindIndentJump(-1,  1) . 'l'<CR><CR>
 
 """""" ↑↑↑
 " Jump between lines based on indentation 
