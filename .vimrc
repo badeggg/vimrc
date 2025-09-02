@@ -1,3 +1,5 @@
+let mapleader = " "
+
 set autoindent
 set nu
 set tabstop=4
@@ -78,9 +80,7 @@ function! IndentJump(direction, level)
     let current_indent = indent(line('.'))
     let lnum = line('.') + a:direction
     
-    " echom "line('.'): " . line('.')
     while lnum > 0 && lnum <= line('$')
-        " echom "lnum: " . lnum
         " Skip empty or whitespace-only lines
         if getline(lnum) =~ '^\s*$'
             let lnum += a:direction
@@ -103,12 +103,13 @@ function! IndentJump(direction, level)
 endfunction
 
 " Key mappings in normal mode
-nnoremap <buffer> [i :call IndentJump(-1, 0)<CR>
-nnoremap <buffer> ]i :call IndentJump(1, 0)<CR>
-nnoremap <buffer> [u :call IndentJump(-1, -1)<CR>
-nnoremap <buffer> [o :call IndentJump(-1, 1)<CR>
-nnoremap <buffer> ]u :call IndentJump(1, -1)<CR>
-nnoremap <buffer> ]o :call IndentJump(1, 1)<CR>
+nnoremap <leader>i :call IndentJump(-1, 0)<CR>
+nnoremap [i :call IndentJump(-1, 0)<CR>
+nnoremap ]i :call IndentJump(1, 0)<CR>
+nnoremap [u :call IndentJump(-1, -1)<CR>
+nnoremap [o :call IndentJump(-1, 1)<CR>
+nnoremap ]u :call IndentJump(1, -1)<CR>
+nnoremap ]o :call IndentJump(1, 1)<CR>
 
 """""" ↑↑↑
 " Jump between lines based on indentation 
