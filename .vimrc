@@ -39,7 +39,7 @@ Plug 'preservim/tagbar'
 
 call plug#end()
 
-nmap <F8> :TagbarToggle<CR>
+nnoremap <F8> :TagbarToggle<CR>
 
 " to jump between matching HTML/XML tags
 runtime macros/matchit.vim
@@ -53,3 +53,44 @@ autocmd VimEnter * redraw!
 
 " This disables the red highlight for underscores inside words.
 hi link markdownError NONE
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Jump between lines based on indentation 
+" [i : jump to previous line with same indentation, 
+" ]i : jump to next line with same indentation
+" [u : jump to previous line with less indentation, 
+" ]o : jump to next line with more indentation
+"
+" Letter usage explanation:
+" 'i' represents indentation.
+" 'u' is used since it sit at the left of letter 'i' on keyboard
+" 'o' is used since it sit at the right of letter 'i' on keyboard
+"
+"""""" ↓↓↓
+
+" Custom function to find the nearest previous line with the same indentation
+function! FindPrevSameIndent()
+    let current_indent = indent(line('.'))
+    let lnum = line('.') - 1
+    while lnum >= 1
+        " Skip empty lines
+        if getline(lnum) =~ '^\s*$'
+            let lnum -= 1
+            continue
+        endif
+
+        if indent(lnum) == current_indent
+            execute lnum
+            return
+        endif
+        let lnum -= 1
+    endwhile
+endfunction
+
+" Map [i to the new function in normal mode
+nnoremap <buffer> [i :call FindPrevSameIndent()<CR>
+
+"""""" ↑↑↑
+" Jump between lines based on indentation 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
