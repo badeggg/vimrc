@@ -78,9 +78,9 @@ function! IndentJump(direction, level)
     let current_indent = indent(line('.'))
     let lnum = line('.') + a:direction
     
-    echom "line('.'): " . line('.')
+    " echom "line('.'): " . line('.')
     while lnum > 0 && lnum <= line('$')
-        echom "lnum: " . lnum
+        " echom "lnum: " . lnum
         " Skip empty or whitespace-only lines
         if getline(lnum) =~ '^\s*$'
             let lnum += a:direction
