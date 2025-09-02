@@ -1,5 +1,6 @@
 let mapleader = " "
 
+set notimeout
 set autoindent
 set nu
 set tabstop=4
@@ -59,12 +60,12 @@ hi link markdownError NONE
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Jump between lines based on indentation 
-" [i : jump to previous line with same indentation, 
-" ]i : jump to next line with same indentation
-" [u : jump to previous line with less indentation, 
-" [o : jump to previous line with more indentation, 
-" ]u : jump to next line with less indentation
-" ]o : jump to next line with more indentation
+" <leader>i : jump to next     line with same indentation
+" <leader>I : jump to previous line with same indentation
+" <leader>u : jump to next     line with less indentation
+" <leader>U : jump to previous line with less indentation
+" <leader>o : jump to next     line with more indentation
+" <leader>O : jump to previous line with more indentation 
 "
 " Letter usage explanation:
 " 'i' represents indentation.
@@ -103,13 +104,12 @@ function! IndentJump(direction, level)
 endfunction
 
 " Key mappings in normal mode
-nnoremap <leader>i :call IndentJump(-1, 0)<CR>
-nnoremap [i :call IndentJump(-1, 0)<CR>
-nnoremap ]i :call IndentJump(1, 0)<CR>
-nnoremap [u :call IndentJump(-1, -1)<CR>
-nnoremap [o :call IndentJump(-1, 1)<CR>
-nnoremap ]u :call IndentJump(1, -1)<CR>
-nnoremap ]o :call IndentJump(1, 1)<CR>
+nnoremap <leader>i :call IndentJump( 1,  0)<CR>
+nnoremap <leader>I :call IndentJump(-1,  0)<CR>
+nnoremap <leader>u :call IndentJump( 1, -1)<CR>
+nnoremap <leader>U :call IndentJump(-1, -1)<CR>
+nnoremap <leader>o :call IndentJump( 1,  1)<CR>
+nnoremap <leader>O :call IndentJump(-1,  1)<CR>
 
 """""" ↑↑↑
 " Jump between lines based on indentation 
