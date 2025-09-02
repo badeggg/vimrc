@@ -60,6 +60,8 @@ hi link markdownError NONE
 " [i : jump to previous line with same indentation, 
 " ]i : jump to next line with same indentation
 " [u : jump to previous line with less indentation, 
+" [o : jump to previous line with more indentation, 
+" ]u : jump to next line with less indentation
 " ]o : jump to next line with more indentation
 "
 " Letter usage explanation:
@@ -69,27 +71,44 @@ hi link markdownError NONE
 "
 """""" ↓↓↓
 
-" Custom function to find the nearest previous line with the same indentation
-function! FindPrevSameIndent()
+" A unified function for jumping based on indentation
+" direction: 1 for forward (down), -1 for backward (up)
+" level: 0 for same, 1 for more, -1 for less
+function! IndentJump(direction, level)
     let current_indent = indent(line('.'))
-    let lnum = line('.') - 1
-    while lnum >= 1
-        " Skip empty lines
+    let lnum = line('.') + a:direction
+    
+    echom "line('.'): " . line('.')
+    while lnum > 0 && lnum <= line('$')
+        echom "lnum: " . lnum
+        " Skip empty or whitespace-only lines
         if getline(lnum) =~ '^\s*$'
-            let lnum -= 1
+            let lnum += a:direction
             continue
         endif
-
-        if indent(lnum) == current_indent
+        
+        let target_indent = indent(lnum)
+        
+        " Check based on the requested level
+        if (a:level == 0 && target_indent == current_indent) ||
+           \ (a:level == 1 && target_indent > current_indent) ||
+           \ (a:level == -1 && target_indent < current_indent)
+            
             execute lnum
             return
         endif
-        let lnum -= 1
+        
+        let lnum += a:direction
     endwhile
 endfunction
 
-" Map [i to the new function in normal mode
-nnoremap <buffer> [i :call FindPrevSameIndent()<CR>
+" Key mappings in normal mode
+nnoremap <buffer> [i :call IndentJump(-1, 0)<CR>
+nnoremap <buffer> ]i :call IndentJump(1, 0)<CR>
+nnoremap <buffer> [u :call IndentJump(-1, -1)<CR>
+nnoremap <buffer> [o :call IndentJump(-1, 1)<CR>
+nnoremap <buffer> ]u :call IndentJump(1, -1)<CR>
+nnoremap <buffer> ]o :call IndentJump(1, 1)<CR>
 
 """""" ↑↑↑
 " Jump between lines based on indentation 
