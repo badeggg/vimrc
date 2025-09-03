@@ -1,6 +1,6 @@
 let mapleader = " "
 
-set notimeout
+" set notimeout
 set autoindent
 set nu
 set tabstop=4
@@ -78,14 +78,12 @@ hi link markdownError NONE
 " It returns the line number of the target, or the current line if no target is found.
 " direction: 1 for forward (down), -1 for backward (up)
 " level: 0 for same, 1 for more, -1 for less
-function! FindIndentJump(direction, level)
-    " In visual mode, the reference indent is from the start of the selection ('<).
-    " In normal mode, it's from the current line (.).
-    let ref_line = mode() =~# '[vV\x16]' ? line("'<") : line('.')
+function! FindIndentJump(start_line, end_line, direction, level)
+    let ref_line = a:direction == 1 ? a:end_line : a:start_line
     let current_indent = indent(ref_line)
 
-    " Always start the search from the current cursor position.
-    let lnum = line('.') + a:direction
+    " Search from ref_line.
+    let lnum = ref_line + a:direction
 
     while lnum > 0 && lnum <= line('$')
         " Skip empty or whitespace-only lines
@@ -106,29 +104,24 @@ function! FindIndentJump(direction, level)
         let lnum += a:direction
     endwhile
 
-    return line('.') " No target found, return current line number to avoid moving
+    return ref_line " No target found, return current line number to avoid moving
 endfunction
 
 " Key mappings in normal mode
-" Execute the line number returned by the function.
-nnoremap         <leader>i :execute FindIndentJump( 1,  0)<CR>
-nnoremap <leader><leader>i :execute FindIndentJump(-1,  0)<CR>
-nnoremap         <leader>u :execute FindIndentJump( 1, -1)<CR>
-nnoremap <leader><leader>u :execute FindIndentJump(-1, -1)<CR>
-nnoremap         <leader>o :execute FindIndentJump( 1,  1)<CR>
-nnoremap <leader><leader>o :execute FindIndentJump(-1,  1)<CR>
+nnoremap         <leader>i :execute FindIndentJump(line('.'), line('.'),  1,  0)<CR>
+nnoremap <leader><leader>i :execute FindIndentJump(line('.'), line('.'), -1,  0)<CR>
+nnoremap         <leader>u :execute FindIndentJump(line('.'), line('.'),  1, -1)<CR>
+nnoremap <leader><leader>u :execute FindIndentJump(line('.'), line('.'), -1, -1)<CR>
+nnoremap         <leader>o :execute FindIndentJump(line('.'), line('.'),  1,  1)<CR>
+nnoremap <leader><leader>o :execute FindIndentJump(line('.'), line('.'), -1,  1)<CR>
 
 " Key mappings in visual mode
-" Use the returned line number to create a search pattern.
-" This acts as a motion and correctly extends the visual selection.
-" Side effect is target line is highlighted since searching, I can not fix
-" this for now.
-vnoremap         <leader>i /<C-R>='\%' . FindIndentJump( 1,  0) . 'l'<CR><CR>
-vnoremap <leader><leader>i ?<C-R>='\%' . FindIndentJump(-1,  0) . 'l'<CR><CR>
-vnoremap         <leader>u /<C-R>='\%' . FindIndentJump( 1, -1) . 'l'<CR><CR>
-vnoremap <leader><leader>u ?<C-R>='\%' . FindIndentJump(-1, -1) . 'l'<CR><CR>
-vnoremap         <leader>o /<C-R>='\%' . FindIndentJump( 1,  1) . 'l'<CR><CR>
-vnoremap <leader><leader>o ?<C-R>='\%' . FindIndentJump(-1,  1) . 'l'<CR><CR>
+vnoremap         <leader>i :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"),  1,  0) . 'G'<CR>
+vnoremap <leader><leader>i :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"), -1,  0) . 'G'<CR>
+vnoremap         <leader>u :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"),  1, -1) . 'G'<CR>
+vnoremap <leader><leader>u :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"), -1, -1) . 'G'<CR>
+vnoremap         <leader>o :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"),  1,  1) . 'G'<CR>
+vnoremap <leader><leader>o :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"), -1,  1) . 'G'<CR>
 
 """""" ↑↑↑
 " Jump between lines based on indentation 
