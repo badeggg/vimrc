@@ -74,12 +74,28 @@ hi link markdownError NONE
 "
 """""" ↓↓↓
 
+let s:last_result = 0
+
 " A unified function for FINDING a jump target based on indentation.
 " It returns the line number of the target, or the current line if no target is found.
 " direction: 1 for forward (down), -1 for backward (up)
 " level: 0 for same, 1 for more, -1 for less
-function! FindIndentJump(start_line, end_line, direction, level)
-    let ref_line = a:direction == 1 ? a:end_line : a:start_line
+function! FindIndentJump(working_mode, direction, level)
+    let ref_line = 0
+    if a:working_mode ==# 'v'
+        if line("'<") == line("'>")
+            let ref_line = line("'>")
+        elseif s:last_result != 0
+            let ref_line = s:last_result
+        else
+            let ref_line = line("'>")
+        endif
+    elseif a:working_mode ==# 'n'
+        let ref_line = line('.')
+    else
+        echom "The character is not 'v' or 'n'."
+    endif
+
     let current_indent = indent(ref_line)
 
     " Search from ref_line.
@@ -98,30 +114,32 @@ function! FindIndentJump(start_line, end_line, direction, level)
         if (a:level == 0 && target_indent == current_indent) ||
            \ (a:level == 1 && target_indent > current_indent) ||
            \ (a:level == -1 && target_indent < current_indent)
+            let s:last_result = lnum
             return lnum " Target found, return its line number
         endif
 
         let lnum += a:direction
     endwhile
 
+    let s:last_result = ref_line
     return ref_line " No target found, return current line number to avoid moving
 endfunction
 
 " Key mappings in normal mode
-nnoremap         <leader>i :execute FindIndentJump(line('.'), line('.'),  1,  0)<CR>
-nnoremap <leader><leader>i :execute FindIndentJump(line('.'), line('.'), -1,  0)<CR>
-nnoremap         <leader>u :execute FindIndentJump(line('.'), line('.'),  1, -1)<CR>
-nnoremap <leader><leader>u :execute FindIndentJump(line('.'), line('.'), -1, -1)<CR>
-nnoremap         <leader>o :execute FindIndentJump(line('.'), line('.'),  1,  1)<CR>
-nnoremap <leader><leader>o :execute FindIndentJump(line('.'), line('.'), -1,  1)<CR>
+nnoremap         <leader>i :execute FindIndentJump('n',  1,  0)<CR>
+nnoremap <leader><leader>i :execute FindIndentJump('n', -1,  0)<CR>
+nnoremap         <leader>u :execute FindIndentJump('n',  1, -1)<CR>
+nnoremap <leader><leader>u :execute FindIndentJump('n', -1, -1)<CR>
+nnoremap         <leader>o :execute FindIndentJump('n',  1,  1)<CR>
+nnoremap <leader><leader>o :execute FindIndentJump('n', -1,  1)<CR>
 
 " Key mappings in visual mode
-vnoremap         <leader>i :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"),  1,  0) . 'G'<CR>
-vnoremap <leader><leader>i :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"), -1,  0) . 'G'<CR>
-vnoremap         <leader>u :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"),  1, -1) . 'G'<CR>
-vnoremap <leader><leader>u :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"), -1, -1) . 'G'<CR>
-vnoremap         <leader>o :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"),  1,  1) . 'G'<CR>
-vnoremap <leader><leader>o :<C-u>execute 'normal! gv' . FindIndentJump(line("'<"), line("'>"), -1,  1) . 'G'<CR>
+vnoremap         <leader>i :<C-u>execute 'normal! gv' . FindIndentJump('v',  1,  0) . 'G'<CR>
+vnoremap <leader><leader>i :<C-u>execute 'normal! gv' . FindIndentJump('v', -1,  0) . 'G'<CR>
+vnoremap         <leader>u :<C-u>execute 'normal! gv' . FindIndentJump('v',  1, -1) . 'G'<CR>
+vnoremap <leader><leader>u :<C-u>execute 'normal! gv' . FindIndentJump('v', -1, -1) . 'G'<CR>
+vnoremap         <leader>o :<C-u>execute 'normal! gv' . FindIndentJump('v',  1,  1) . 'G'<CR>
+vnoremap <leader><leader>o :<C-u>execute 'normal! gv' . FindIndentJump('v', -1,  1) . 'G'<CR>
 
 """""" ↑↑↑
 " Jump between lines based on indentation 
