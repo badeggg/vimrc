@@ -74,28 +74,15 @@ hi link markdownError NONE
 "
 """""" ↓↓↓
 
-let s:last_result = 0
-
-" A unified function for FINDING a jump target based on indentation.
-" It returns the line number of the target, or the current line if no target is found.
+" Find the jump target based on indentation.
+" It returns a keystroke sequence string which can move the cursor to the target
+" line, e.g. '3j' to move cursor 3 lines downwards, or an empty stirng if no
+" target is found.
+"
 " direction: 1 for forward (down), -1 for backward (up)
-" level: 0 for same, 1 for more, -1 for less
-function! FindIndentJump(working_mode, direction, level)
-    let ref_line = 0
-    if a:working_mode ==# 'v'
-        if line("'<") == line("'>")
-            let ref_line = line("'>")
-        elseif s:last_result != 0
-            let ref_line = s:last_result
-        else
-            let ref_line = line("'>")
-        endif
-    elseif a:working_mode ==# 'n'
-        let ref_line = line('.')
-    else
-        echom "The character is not 'v' or 'n'."
-    endif
-
+"     level: 0 for same, 1 for more, -1 for less
+function! IndentJump(direction, level)
+    let ref_line = line('.')
     let current_indent = indent(ref_line)
 
     " Search from ref_line.
@@ -114,32 +101,33 @@ function! FindIndentJump(working_mode, direction, level)
         if (a:level == 0 && target_indent == current_indent) ||
            \ (a:level == 1 && target_indent > current_indent) ||
            \ (a:level == -1 && target_indent < current_indent)
-            let s:last_result = lnum
-            return lnum " Target found, return its line number
+            " Target found
+            let shift = abs(lnum - ref_line)
+            return a:direction > 0 ? shift . 'j' : shift . 'k'
         endif
 
         let lnum += a:direction
     endwhile
 
-    let s:last_result = ref_line
-    return ref_line " No target found, return current line number to avoid moving
+    return '' " No target found
 endfunction
 
 " Key mappings in normal mode
-nnoremap         <leader>i :execute FindIndentJump('n',  1,  0)<CR>
-nnoremap <leader><leader>i :execute FindIndentJump('n', -1,  0)<CR>
-nnoremap         <leader>u :execute FindIndentJump('n',  1, -1)<CR>
-nnoremap <leader><leader>u :execute FindIndentJump('n', -1, -1)<CR>
-nnoremap         <leader>o :execute FindIndentJump('n',  1,  1)<CR>
-nnoremap <leader><leader>o :execute FindIndentJump('n', -1,  1)<CR>
+nnoremap <expr>         <leader>i IndentJump( 1,  0)
+nnoremap <expr> <leader><leader>i IndentJump(-1,  0)
+nnoremap <expr>         <leader>u IndentJump( 1, -1)
+nnoremap <expr> <leader><leader>u IndentJump(-1, -1)
+nnoremap <expr>         <leader>o IndentJump( 1,  1)
+nnoremap <expr> <leader><leader>o IndentJump(-1,  1)
+
 
 " Key mappings in visual mode
-vnoremap         <leader>i :<C-u>execute 'normal! gv' . FindIndentJump('v',  1,  0) . 'G'<CR>
-vnoremap <leader><leader>i :<C-u>execute 'normal! gv' . FindIndentJump('v', -1,  0) . 'G'<CR>
-vnoremap         <leader>u :<C-u>execute 'normal! gv' . FindIndentJump('v',  1, -1) . 'G'<CR>
-vnoremap <leader><leader>u :<C-u>execute 'normal! gv' . FindIndentJump('v', -1, -1) . 'G'<CR>
-vnoremap         <leader>o :<C-u>execute 'normal! gv' . FindIndentJump('v',  1,  1) . 'G'<CR>
-vnoremap <leader><leader>o :<C-u>execute 'normal! gv' . FindIndentJump('v', -1,  1) . 'G'<CR>
+vnoremap <expr>         <leader>i IndentJump( 1,  0)
+vnoremap <expr> <leader><leader>i IndentJump(-1,  0)
+vnoremap <expr>         <leader>u IndentJump( 1, -1)
+vnoremap <expr> <leader><leader>u IndentJump(-1, -1)
+vnoremap <expr>         <leader>o IndentJump( 1,  1)
+vnoremap <expr> <leader><leader>o IndentJump(-1,  1)
 
 """""" ↑↑↑
 " Jump between lines based on indentation 
