@@ -76,7 +76,7 @@ hi link markdownError NONE
 
 " Find the jump target based on indentation.
 " It returns a keystroke sequence string which can move the cursor to the target
-" line, e.g. '3j' to move cursor 3 lines downwards, or an empty stirng if no
+" line, e.g. '20G' to move cursor to line 20, or an empty stirng if no
 " target is found.
 "
 " direction: 1 for forward (down), -1 for backward (up)
@@ -102,8 +102,7 @@ function! IndentJump(direction, level)
            \ (a:level == 1 && target_indent > current_indent) ||
            \ (a:level == -1 && target_indent < current_indent)
             " Target found
-            let shift = abs(lnum - ref_line)
-            return a:direction > 0 ? shift . 'j' : shift . 'k'
+            return lnum . 'G'
         endif
 
         let lnum += a:direction
