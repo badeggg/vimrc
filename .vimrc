@@ -39,10 +39,17 @@ call plug#begin('~/.vim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/tagbar'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 
 call plug#end()
 
 nnoremap <F8> :TagbarToggle<CR>
+nnoremap <silent> gd :LspDefinition<CR>
+
+" display relative file path at window's left-bottom
+" use :cd . to also change file path in the output of :ls to relative
+set statusline=%{expand('%:.')}
 
 " to jump between matching HTML/XML tags
 runtime macros/matchit.vim
