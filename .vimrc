@@ -23,7 +23,6 @@ highlight SignColumn guibg=#ffffff
 " colorscheme gruvbox
 " set background=dark
 set ruler
-set laststatus=2
 
 set listchars+=space:␣
 set backspace=indent,eol,start
@@ -64,3 +63,6 @@ autocmd VimEnter * redraw!
 
 " This disables the red highlight for underscores inside words.
 hi link markdownError NONE
+
+set laststatus=2
+set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
