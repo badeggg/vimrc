@@ -78,4 +78,7 @@ function! PrettifyCurrentFile()
 endfunction
 
 nmap <leader>f :call PrettifyCurrentFile()<CR>
-nmap <leader>p i<C-R>%<Esc>
+" paste file name
+nmap <leader>p :let @* = expand('%:t')<CR>"*p
+" paste file path
+nmap <leader><leader>p i<C-R>%<Esc>
