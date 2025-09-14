@@ -78,3 +78,4 @@ function! PrettifyCurrentFile()
 endfunction
 
 nmap <leader>f :call PrettifyCurrentFile()<CR>
+nmap <leader>p i<C-R>%<Esc>
