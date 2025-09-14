@@ -66,3 +66,15 @@ hi link markdownError NONE
 
 set laststatus=2
 set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
+
+function! PrettifyCurrentFile()
+  let cur_pos = getcurpos()
+  if &filetype == 'javascript' || &filetype == 'typescript' || &filetype == 'javascriptreact' || &filetype == 'typescriptreact'
+      silent :%!npx prettier --stdin-filepath %
+  else
+      echo "This file type is not supported by this function."
+  endif
+  call setpos('.', cur_pos)
+endfunction
+
+nmap <leader>f :call PrettifyCurrentFile()<CR>
