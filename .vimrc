@@ -77,8 +77,8 @@ function! PrettifyCurrentFile()
   call setpos('.', cur_pos)
 endfunction
 
-nmap <leader>f :call PrettifyCurrentFile()<CR>
+nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
 " paste file name
-nmap <leader>p i<C-R>=expand('%:t')<CR><Esc>
+nmap <leader>p a<C-R>=expand('%:t')<CR><Esc>
 " paste file path
-nmap <leader><leader>p i<C-R>%<Esc>
+nmap <leader><leader>p a<C-R>%<Esc>
