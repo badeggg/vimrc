@@ -16,6 +16,11 @@ set nowrap
 set updatetime=300
 set splitright
 
+" search exact word without moving cursor
+nnoremap         <leader>s :let @/='\<<C-R><C-W>\>'<CR>:set hlsearch<CR>
+" search word without moving cursor
+nnoremap <leader><leader>s :let @/='<C-R><C-W>'<CR>:set hlsearch<CR>
+
 highlight GitGutterAdd    guifg=#009900 ctermfg=2 
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
