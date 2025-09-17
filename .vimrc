@@ -1,6 +1,7 @@
 let mapleader = " "
 
 " set notimeout
+set timeoutlen=3000
 set autoindent
 set nu
 set tabstop=4
