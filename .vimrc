@@ -89,7 +89,7 @@ nmap <leader>p a<C-R>=expand('%:t')<CR><Esc>
 " paste file path
 nmap <leader><leader>p a<C-R>%<Esc>
 
-"""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Helper function to resolve files
 function! s:ResolveFile(path)
     if fnamemodify(a:path, ':e') =~? '^\(css\|ts\|tsx\|js\|jsx\)$'
@@ -239,3 +239,4 @@ endfunction
 
 
 nmap <leader>m :call GotoModule()<CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
