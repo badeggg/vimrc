@@ -16,6 +16,7 @@ set nowrap
 set updatetime=300
 set splitright
 
+" todo this does not effect search hisroty
 " search exact word without moving cursor
 nnoremap         <leader>s :let @/='\<<C-R><C-W>\>'<CR>:set hlsearch<CR>
 " search word without moving cursor
