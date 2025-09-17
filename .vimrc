@@ -16,11 +16,10 @@ set nowrap
 set updatetime=300
 set splitright
 
-" todo this does not effect search hisroty
 " search exact word without moving cursor
-nnoremap         <leader>s :let @/='\<<C-R><C-W>\>'<CR>:set hlsearch<CR>
+nnoremap <expr>         <leader>s '/\<<C-R><C-W>\><CR>N'
 " search word without moving cursor
-nnoremap <leader><leader>s :let @/='<C-R><C-W>'<CR>:set hlsearch<CR>
+nnoremap <expr> <leader><leader>s '/<C-R><C-W><CR>N'
 
 highlight GitGutterAdd    guifg=#009900 ctermfg=2 
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
