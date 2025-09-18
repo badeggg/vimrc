@@ -27,12 +27,11 @@ set splitright
 "       gc<leader>s : search insensitive non-boundary word
 """""" ↓↓↓
 
-" todo, to figure out what do 'c' and 'g' mean when search
-
-nnoremap <expr>   <leader>s '/\<<C-R><C-W>\><CR>N'
-nnoremap <expr>  g<leader>s '/<C-R><C-W><CR>N'
-nnoremap <expr>  c<leader>s '/\c\<<C-R><C-W>\><CR>N'
-nnoremap <expr> cg<leader>s '/<C-R><C-W><CR>N'
+nnoremap   <leader>s :let @/='\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap  g<leader>s :let @/='<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap  c<leader>s :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap cg<leader>s :let @/='\c<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap gc<leader>s :let @/='\c<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
 """""" ↑↑↑
 " search current word without moving cursor
