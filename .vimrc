@@ -17,10 +17,27 @@ set nowrap
 set updatetime=300
 set splitright
 
-" search exact word without moving cursor
-nnoremap <expr>         <leader>s '/\<<C-R><C-W>\><CR>N'
-" search word without moving cursor
-nnoremap <expr> <leader><leader>s '/<C-R><C-W><CR>N'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" search current word without moving cursor
+"         <leader>s : search   sensitive     boundary word
+"        g<leader>s : search   sensitive non-boundary word
+"        c<leader>s : search insensitive     boundary word
+"       cg<leader>s : search insensitive non-boundary word
+"       gc<leader>s : search insensitive non-boundary word
+"""""" ↓↓↓
+
+" todo, to figure out what do 'c' and 'g' mean when search
+
+nnoremap <expr>   <leader>s '/\<<C-R><C-W>\><CR>N'
+nnoremap <expr>  g<leader>s '/<C-R><C-W><CR>N'
+nnoremap <expr>  c<leader>s '/\c\<<C-R><C-W>\><CR>N'
+nnoremap <expr> cg<leader>s '/<C-R><C-W><CR>N'
+
+"""""" ↑↑↑
+" search current word without moving cursor
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 highlight GitGutterAdd    guifg=#009900 ctermfg=2 
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
