@@ -106,3 +106,20 @@ nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
 nmap <leader>p a<C-R>=expand('%:t')<CR><Esc>
 " paste file path
 nmap <leader><leader>p a<C-R>%<Esc>
+
+function! TruncateFileName()
+  let filename = expand('%:t')
+
+  " Remove up to three extensions
+  for i in range(3)
+    let new_filename = fnamemodify(filename, ':r')
+    if new_filename == filename
+      break " No more extensions to remove
+    endif
+    let filename = new_filename
+  endfor
+
+  return filename
+endfunction
+
+nnoremap <expr> s<leader>f "/" . TruncateFileName() . "<CR>"
