@@ -62,7 +62,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/tagbar'
 Plug 'badeggg/indent-jump.vim'
-Plug 'badeggg/goto-module-ts.vim'
+Plug 'badeggg/goto-module-ts.vim', { 'branch': 'wip' }
 
 call plug#end()
 
