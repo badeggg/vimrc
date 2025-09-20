@@ -61,19 +61,13 @@ call plug#begin('~/.vim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/tagbar'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
 Plug 'badeggg/indent-jump.vim'
 Plug 'badeggg/goto-module-ts.vim'
 
 call plug#end()
 
+" related to plugin 'preservim/tagbar'
 nnoremap <F8> :TagbarToggle<CR>
-nnoremap <silent> gd :LspDefinition<CR>
-nnoremap <silent> ge :LspNextError<CR>
-nnoremap <silent> gE :LspPreviousError<CR>
-nnoremap <silent> gw :LspNextWarning<CR>
-nnoremap <silent> gW :LspPreviousWarning<CR>
 
 " to jump between matching HTML/XML tags
 runtime macros/matchit.vim
