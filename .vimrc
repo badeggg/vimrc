@@ -100,7 +100,7 @@ function! PrettifyCurrentFile()
   endif
   call setpos('.', cur_pos)
 endfunction
-
+" prettier current file
 nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
 " paste file name
 nmap <leader>p a<C-R>=expand('%:t')<CR><Esc>
@@ -121,5 +121,5 @@ function! TruncateFileName()
 
   return filename
 endfunction
-
+" search current file name
 nnoremap <expr> s<leader>f "/" . TruncateFileName() . "<CR>"
