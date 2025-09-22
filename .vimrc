@@ -1,3 +1,4 @@
+" cursor color: #86bd11
 let mapleader = " "
 
 " set notimeout
