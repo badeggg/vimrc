@@ -102,7 +102,7 @@ nmap <leader>p a<C-R>=expand('%:t')<CR><Esc>
 " paste file path
 nmap <leader><leader>p a<C-R>%<Esc>
 
-function! TruncateFileName()
+function! SearchCurrentFileName()
   let filename = expand('%:t')
 
   " Remove up to three extensions
@@ -114,7 +114,10 @@ function! TruncateFileName()
     let filename = new_filename
   endfor
 
-  return filename
+  if !empty(filename)
+    " It's impossible to hlsearch in a function, `check :help function-search-undo`
+    execute 'silent! normal! /' . filename . "\<CR>"
+  endif
 endfunction
-" search current file name
-nnoremap <expr> s<leader>f "/" . TruncateFileName() . "<CR>"
+
+nnoremap s<leader>f :call SearchCurrentFileName()\|:set hlsearch<CR>
