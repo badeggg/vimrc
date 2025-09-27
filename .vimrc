@@ -1,7 +1,7 @@
 " cursor color: #86bd11
 let mapleader = " "
 
-" set notimeout
+set ttimeoutlen=30 " set a larger value when in a ssh environment
 set timeoutlen=3000
 set autoindent
 set nu
