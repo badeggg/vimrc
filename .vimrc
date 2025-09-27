@@ -87,13 +87,13 @@ set laststatus=2
 set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
 
 function! PrettifyCurrentFile()
-  let cur_pos = getcurpos()
+  let l:cur_pos = getcurpos()
   if &filetype == 'javascript' || &filetype == 'typescript' || &filetype == 'javascriptreact' || &filetype == 'typescriptreact'
       silent :%!npx prettier --stdin-filepath %
   else
       echom "Error: This file type is not supported by this function."
   endif
-  call setpos('.', cur_pos)
+  call setpos('.', l:cur_pos)
 endfunction
 " prettier current file
 nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
@@ -116,7 +116,11 @@ function! SearchCurrentFileName()
 
   if !empty(filename)
     " It's impossible to hlsearch in a function, `check :help function-search-undo`
-    execute 'silent! normal! /' . filename . "\<CR>"
+    " todo to check, not working in my macbook air
+    " execute 'silent! normal! /' . filename . "\<CR>"
+    let @/ = filename
+    normal! n
+    call histadd('search', @/)
   endif
 endfunction
 
