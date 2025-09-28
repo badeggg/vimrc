@@ -88,11 +88,31 @@ set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
 
 function! PrettifyCurrentFile()
   let l:cur_pos = getcurpos()
-  if &filetype == 'javascript' || &filetype == 'typescript' || &filetype == 'javascriptreact' || &filetype == 'typescriptreact'
-      silent :%!npx prettier --stdin-filepath %
+  let l:content = join(getline(1, '$'), "\n") " Get all content
+  let l:filetype_supported = (&filetype =~# '\v^(javascript|typescript|javascriptreact|typescriptreact|json|css|scss|less)$')
+
+  if l:filetype_supported
+    let l:cmd = 'npx prettier --stdin-filepath ' . shellescape(expand('%'))
+
+    " Use system() to run the command and feed it l:content via stdin.
+    let l:output = system(l:cmd, l:content)
+    
+    " Check the exit code. v:shell_error is set by system()
+    if v:shell_error == 0
+      " Success: Replace the buffer content.
+      call setline(1, split(l:output, "\n"))
+      echom "File prettified successfully! ✨"
+    else
+      " Failure: The buffer is NOT touched. l:output contains the error.
+      echohl ErrorMsg
+      echom "Prettier failed! Check the error below:"
+      echom l:output
+      echohl None
+    endif
   else
-      echom "Error: This file type is not supported by this function."
+    echohl ErrorMsg | echom "Error: File type unsupported." | echohl None
   endif
+
   call setpos('.', l:cur_pos)
 endfunction
 " prettier current file
