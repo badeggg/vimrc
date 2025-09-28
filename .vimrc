@@ -135,9 +135,7 @@ function! SearchCurrentFileName()
   endfor
 
   if !empty(filename)
-    " :set hlsearch does not work reliably from within a function, I still don't know why. `check :help function-search-undo`
-    " todo to check, not working in my macbook air
-    " execute 'silent! normal! /' . filename . "\<CR>"
+    " :set hlsearch does not work reliably from within a function
     let @/ = filename
     normal! n
     call histadd('search', @/)
