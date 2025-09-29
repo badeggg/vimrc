@@ -123,20 +123,20 @@ nmap <leader>p a<C-R>=expand('%:t')<CR><Esc>
 nmap <leader><leader>p a<C-R>%<Esc>
 
 function! SearchCurrentFileName()
-  let filename = expand('%:t')
+  let l:filename = expand('%:t')
 
   " Remove up to three extensions
   for i in range(3)
-    let new_filename = fnamemodify(filename, ':r')
-    if new_filename == filename
+    let new_filename = fnamemodify(l:filename, ':r')
+    if new_filename == l:filename
       break " No more extensions to remove
     endif
-    let filename = new_filename
+    let l:filename = new_filename
   endfor
 
-  if !empty(filename)
+  if !empty(l:filename)
     " :set hlsearch does not work reliably from within a function
-    let @/ = filename
+    let @/ = l:filename
     normal! n
     call histadd('search', @/)
   endif
