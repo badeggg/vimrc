@@ -62,8 +62,8 @@ call plug#begin('~/.vim/plugged')
 " Add plugins
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/tagbar'
-Plug 'badeggg/indent-jump.vim'
-Plug 'badeggg/goto-module-ts.vim'
+Plug 'git@github.com:badeggg/indent-jump.vim.git'
+Plug 'git@github.com:badeggg/goto-module-ts.vim.git'
 
 call plug#end()
 
