@@ -44,7 +44,6 @@ highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
 highlight SignColumn guibg=#ffffff
 
-" colorscheme gruvbox
 " set background=dark
 set ruler
 
