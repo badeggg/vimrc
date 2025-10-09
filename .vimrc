@@ -99,6 +99,7 @@ function! PrettifyCurrentFile()
     " Check the exit code. v:shell_error is set by system()
     if v:shell_error == 0
       " Success: Replace the buffer content.
+      silent! execute '%d'
       call setline(1, split(l:output, "\n"))
       echom "File prettified successfully! ✨"
     else
