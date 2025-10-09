@@ -142,3 +142,9 @@ function! SearchCurrentFileName()
 endfunction
 
 nnoremap s<leader>f :call SearchCurrentFileName()\|:set hlsearch<CR>
+
+" convenient commands to close left(h)/down(j)/up(k)/right(l) window
+command! Qh execute "normal! \<C-w>h:q\<CR>\<C-w>l"
+command! Qj execute "normal! \<C-w>j:q\<CR>\<C-w>l"
+command! Qk execute "normal! \<C-w>k:q\<CR>\<C-w>l"
+command! Ql execute "normal! \<C-w>l:q\<CR>\<C-w>l"
