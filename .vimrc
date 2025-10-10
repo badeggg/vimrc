@@ -99,8 +99,13 @@ function! PrettifyCurrentFile()
     " Check the exit code. v:shell_error is set by system()
     if v:shell_error == 0
       " Success: Replace the buffer content.
-      silent! execute '%d'
-      call setline(1, split(l:output, "\n"))
+      let l:output_split = split(l:output, "\n")
+      let l:origin_longer = line('$') - len(l:output_split)
+      if l:origin_longer >= 1
+          " delete longer text in original content
+          silent! execute '$-' . l:origin_longer . ',$d'
+      endif
+      call setline(1, l:output_split)
       echom "File prettified successfully! ✨"
     else
       " Failure: The buffer is NOT touched. l:output contains the error.
