@@ -17,6 +17,7 @@ syntax on
 set nowrap
 set updatetime=300
 set splitright
+set splitbelow
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
