@@ -148,7 +148,7 @@ function! SearchCurrentFileName()
   endif
 endfunction
 
-nnoremap s<leader>f :call SearchCurrentFileName()\|:set hlsearch<CR>
+command! SearchCurrentFileName execute 'call SearchCurrentFileName()' | set hlsearch
 
 " convenient commands to close left(h)/down(j)/up(k)/right(l) window
 command! Qh execute "normal! \<C-w>h:q\<CR>\<C-w>l"
