@@ -12,7 +12,6 @@ set shiftwidth=4
 set smarttab
 set hlsearch
 set nowrapscan
-" setlocal foldmethod=indent
 syntax on
 set nowrap
 set updatetime=300
@@ -124,11 +123,10 @@ function! PrettifyCurrentFile()
 endfunction
 " prettier current file
 nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
-" paste file name
-nmap <leader>p a<C-R>=expand('%:t')<CR><Esc>
-" paste file path
-nmap <leader><leader>p a<C-R>%<Esc>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" file name related operations
+"""""" ↓↓↓
 function! SearchCurrentFileName()
   let l:filename = expand('%:t')
 
@@ -148,11 +146,37 @@ function! SearchCurrentFileName()
     call histadd('search', @/)
   endif
 endfunction
-
 command! SearchCurrentFileName execute 'call SearchCurrentFileName()' | set hlsearch
 
+
+command! PasteFileName         execute "normal! a\<C-R>=expand('%:t')\<CR>\<Esc>"
+command! PasteFilePath         execute "normal! a\<C-R>%\<Esc>"
+command! PasteFilePathRelative execute "normal! a\<C-R>%\<Esc>"
+command! PasteFilePathAbsolute execute "normal! a\<C-R>=expand('%:p')\<CR>\<Esc>"
+
+command! CopyFileName         execute "let @* = expand('%:t')"
+command! CopyFilePath         execute "let @* = expand('%')"
+command! CopyFilePathRelative execute "let @* = expand('%')"
+command! CopyFilePathAbsolute execute "let @* = expand('%:p')"
+
+"""""" ↑↑↑
+" file name related operations
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " convenient commands to close left(h)/down(j)/up(k)/right(l) window
+"""""" ↓↓↓
+
 command! Qh execute "normal! \<C-w>h:q\<CR>\<C-w>l"
 command! Qj execute "normal! \<C-w>j:q\<CR>\<C-w>k"
 command! Qk execute "normal! \<C-w>k:q\<CR>"
 command! Ql execute "normal! \<C-w>l:q\<CR>"
+
+"""""" ↑↑↑
+" convenient commands to close left(h)/down(j)/up(k)/right(l) window
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" TODO, make this file more readable
+" TODO, let indent-jump.vim respect a variable which toggle whether ignore
+" empty lines
