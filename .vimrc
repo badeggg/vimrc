@@ -1,4 +1,8 @@
-" cursor color: #86bd11
+"-------------------------------------------------------------------------
+"miscellanea
+
+" macOS terminal cursor color: #86bd11
+
 let mapleader = " "
 
 set ttimeoutlen=30 " set a larger value when in a ssh environment
@@ -12,50 +16,51 @@ set shiftwidth=4
 set smarttab
 set hlsearch
 set nowrapscan
-syntax on
 set nowrap
 set updatetime=300
 set splitright
 set splitbelow
+set ruler
+set listchars+=space:␣
+set backspace=indent,eol,start
+set tags=tags;/
+set re=0
+set laststatus=2
+set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
+
+" related to plugin 'preservim/tagbar'
+nnoremap <F8> :TagbarToggle<CR>
+
+" to jump between matching HTML/XML tags
+runtime macros/matchit.vim
+
+filetype plugin on
+
+" no auto comment leader insertion
+autocmd FileType * setlocal formatoptions-=r formatoptions-=o
+
+" This disables the red highlight for underscores inside words.
+hi link markdownError NONE
+"-------------------------------------------------------------------------
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------
 " search current word without moving cursor
 "         <leader>s : search   sensitive     boundary word
 "        g<leader>s : search   sensitive non-boundary word
 "        c<leader>s : search insensitive     boundary word
 "       cg<leader>s : search insensitive non-boundary word
 "       gc<leader>s : search insensitive non-boundary word
-"""""" ↓↓↓
-
 nnoremap   <leader>s :let @/='\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap  g<leader>s :let @/='<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap  c<leader>s :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap cg<leader>s :let @/='\c<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap gc<leader>s :let @/='\c<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-
-"""""" ↑↑↑
-" search current word without moving cursor
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------
 
 
-highlight GitGutterAdd    guifg=#009900 ctermfg=2 
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
-highlight SignColumn guibg=#ffffff
-
-" set background=dark
-set ruler
-
-set listchars+=space:␣
-set backspace=indent,eol,start
-
-set tags=tags;/
-set re=0
-
-" to view man page in vim
-runtime! ftplugin/man.vim
-
+"-------------------------------------------------------------------------
+" use Vim-Plug manage vim plugins
 call plug#begin('~/.vim/plugged')
 
 " Add plugins
@@ -66,26 +71,18 @@ Plug 'badeggg/goto-module-ts.vim'
 Plug 'badeggg/git-link.vim'
 
 call plug#end()
+"-------------------------------------------------------------------------
 
-" related to plugin 'preservim/tagbar'
-nnoremap <F8> :TagbarToggle<CR>
 
-" to jump between matching HTML/XML tags
-runtime macros/matchit.vim
-filetype plugin on
-
-" no auto comment leader insertion
-autocmd FileType * setlocal formatoptions-=r formatoptions-=o
-
+"-------------------------------------------------------------------------
+" color scheme related
 colorscheme desert
 autocmd VimEnter * redraw!
+"-------------------------------------------------------------------------
 
-" This disables the red highlight for underscores inside words.
-hi link markdownError NONE
 
-set laststatus=2
-set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
-
+"-------------------------------------------------------------------------
+" prettier current file
 function! PrettifyCurrentFile()
   let l:cur_pos = getcurpos()
   let l:content = join(getline(1, '$'), "\n") " Get all content
@@ -121,12 +118,13 @@ function! PrettifyCurrentFile()
 
   call setpos('.', l:cur_pos)
 endfunction
-" prettier current file
-nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
+"-------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------
 " file name related operations
-"""""" ↓↓↓
 function! SearchCurrentFileName()
   let l:filename = expand('%:t')
 
@@ -146,8 +144,8 @@ function! SearchCurrentFileName()
     call histadd('search', @/)
   endif
 endfunction
-command! SearchCurrentFileName execute 'call SearchCurrentFileName()' | set hlsearch
 
+command! SearchCurrentFileName execute 'call SearchCurrentFileName()' | set hlsearch
 
 command! PasteFileName         execute "normal! a\<C-R>=expand('%:t')\<CR>\<Esc>"
 command! PasteFilePath         execute "normal! a\<C-R>%\<Esc>"
@@ -158,25 +156,30 @@ command! CopyFileName         execute "let @* = expand('%:t')"
 command! CopyFilePath         execute "let @* = expand('%')"
 command! CopyFilePathRelative execute "let @* = expand('%')"
 command! CopyFilePathAbsolute execute "let @* = expand('%:p')"
-
-"""""" ↑↑↑
-" file name related operations
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------
 " convenient commands to close left(h)/down(j)/up(k)/right(l) window
-"""""" ↓↓↓
-
 command! Qh execute "normal! \<C-w>h:q\<CR>\<C-w>l"
 command! Qj execute "normal! \<C-w>j:q\<CR>\<C-w>k"
 command! Qk execute "normal! \<C-w>k:q\<CR>"
 command! Ql execute "normal! \<C-w>l:q\<CR>"
+"-------------------------------------------------------------------------
 
-"""""" ↑↑↑
-" convenient commands to close left(h)/down(j)/up(k)/right(l) window
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" TODO, make this file more readable
-" TODO, let indent-jump.vim respect a variable which toggle whether ignore
-" empty lines
+"-------------------------------------------------------------------------
+" to delete those lines
+
+" highlight SignColumn guibg=#ffffff
+" set background=dark
+
+" highlight GitGutterAdd    guifg=#009900 ctermfg=2 
+" highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
+" highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
+
+" to view man page in vim
+" runtime! ftplugin/man.vim
+
+
+"-------------------------------------------------------------------------
