@@ -51,11 +51,22 @@ hi link markdownError NONE
 "        c<leader>s : search insensitive     boundary word
 "       cg<leader>s : search insensitive non-boundary word
 "       gc<leader>s : search insensitive non-boundary word
-nnoremap   <leader>s :let @/='\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap  g<leader>s :let @/='<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap   <leader>s :let @/=  '\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap  g<leader>s :let @/=    '<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap  c<leader>s :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap cg<leader>s :let @/='\c<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap gc<leader>s :let @/='\c<C-R><C-W>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap cg<leader>s :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap gc<leader>s :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+
+" search selected content without moving cursor
+"         <leader>s : search   sensitive non-boundary word
+"        g<leader>s : search   sensitive     boundary word
+"        c<leader>s : search insensitive     boundary word
+"       cg<leader>s : search insensitive non-boundary word
+"       gc<leader>s : search insensitive non-boundary word
+vnoremap   <leader>s "vy:let @/='\V'     . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap  g<leader>s "vy:let @/='\V\<'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap cg<leader>s "vy:let @/='\V\c\<' . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap gc<leader>s "vy:let @/='\V\c'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 "-------------------------------------------------------------------------
 
 
