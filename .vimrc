@@ -28,6 +28,8 @@ set re=0
 set laststatus=2
 set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
 
+cabbrev vt vertical terminal
+
 " related to plugin 'preservim/tagbar'
 nnoremap <F8> :TagbarToggle<CR>
 
@@ -177,6 +179,16 @@ command! Qh execute "normal! \<C-w>h:q\<CR>\<C-w>l"
 command! Qj execute "normal! \<C-w>j:q\<CR>\<C-w>k"
 command! Qk execute "normal! \<C-w>k:q\<CR>"
 command! Ql execute "normal! \<C-w>l:q\<CR>"
+"-------------------------------------------------------------------------
+
+"-------------------------------------------------------------------------
+" git diff
+cabbrev diff   vertical terminal git -P diff %
+cabbrev diffh  vertical terminal git -P diff HEAD %
+cabbrev diffa  vertical terminal git -P diff
+cabbrev diffah vertical terminal git -P diff HEAD
+
+cabbrev filehis vertical terminal git -P log -p %
 "-------------------------------------------------------------------------
 
 
