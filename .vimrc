@@ -184,12 +184,12 @@ command! Ql execute "normal! \<C-w>l:q\<CR>"
 
 "-------------------------------------------------------------------------
 " git diff
-cabbrev diff   vertical terminal git -P diff %
-cabbrev diffh  vertical terminal git -P diff HEAD %
-cabbrev diffa  vertical terminal git -P diff
-cabbrev diffah vertical terminal git -P diff HEAD
+command! Diff   vertical terminal git -P diff %
+command! Diffh  vertical terminal git -P diff HEAD %
+command! Diffa  vertical terminal git -P diff
+command! Diffah vertical terminal git -P diff HEAD
 
-cabbrev filehis vertical terminal git -P log -p %
+command! Filehis vertical terminal git -P log -p %
 "-------------------------------------------------------------------------
 
 
