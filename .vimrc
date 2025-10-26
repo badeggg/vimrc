@@ -65,8 +65,9 @@ nnoremap gc<leader>s :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histad
 "       gc<leader>s : search insensitive non-boundary word
 vnoremap   <leader>s "vy:let @/='\V'     . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 vnoremap  g<leader>s "vy:let @/='\V\<'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap  c<leader>s "vy:let @/='\V\c'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 vnoremap cg<leader>s "vy:let @/='\V\c\<' . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap gc<leader>s "vy:let @/='\V\c'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap gc<leader>s "vy:let @/='\V\c\<' . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 "-------------------------------------------------------------------------
 
 
