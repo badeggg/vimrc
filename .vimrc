@@ -184,12 +184,12 @@ command! Ql execute "normal! \<C-w>l:q\<CR>"
 
 "-------------------------------------------------------------------------
 " git diff
-command! Diff   vertical terminal git -P diff %
-command! Diffh  vertical terminal git -P diff HEAD %
-command! Diffa  vertical terminal git -P diff
-command! Diffah vertical terminal git -P diff HEAD
 
-command! Filehis vertical terminal git -P log -p %
+command! Diff    vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'      | 1d
+command! Diffh   vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff HEAD #' | 1d
+command! Diffa   vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff'        | 1d
+command! Diffah  vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff HEAD'   | 1d
+command! Filehis vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
 "-------------------------------------------------------------------------
 
 
