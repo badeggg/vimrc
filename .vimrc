@@ -174,10 +174,10 @@ command! CopyFilePathAbsolute execute "let @* = expand('%:p')"
 
 "-------------------------------------------------------------------------
 " convenient commands to close left(h)/down(j)/up(k)/right(l) window
-command! Qh execute "normal! \<C-w>h:q\<CR>\<C-w>l"
-command! Qj execute "normal! \<C-w>j:q\<CR>\<C-w>k"
-command! Qk execute "normal! \<C-w>k:q\<CR>"
-command! Ql execute "normal! \<C-w>l:q\<CR>"
+command! Qh let target_win = winnr('h') | execute target_win . 'wincmd q'
+command! Qj let target_win = winnr('j') | execute target_win . 'wincmd q'
+command! Qk let target_win = winnr('k') | execute target_win . 'wincmd q'
+command! Ql let target_win = winnr('l') | execute target_win . 'wincmd q'
 "-------------------------------------------------------------------------
 
 "-------------------------------------------------------------------------
