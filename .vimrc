@@ -28,8 +28,6 @@ set re=0
 set laststatus=2
 set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
 
-cabbrev vt vertical terminal
-
 " related to plugin 'preservim/tagbar'
 nnoremap <F8> :TagbarToggle<CR>
 
