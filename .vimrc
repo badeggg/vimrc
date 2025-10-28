@@ -138,7 +138,7 @@ nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
 
 "-------------------------------------------------------------------------
 " file name related operations
-function! SearchCurrentFileName()
+function! SearchFileName()
   let l:filename = expand('%:t')
 
   " Remove up to three extensions
@@ -158,7 +158,7 @@ function! SearchCurrentFileName()
   endif
 endfunction
 
-command! SearchCurrentFileName execute 'call SearchCurrentFileName()' | set hlsearch
+command! SearchFileName execute 'call SearchFileName()' | set hlsearch
 
 command! PasteFileName         execute "normal! a\<C-R>=expand('%:t')\<CR>\<Esc>"
 command! PasteFilePath         execute "normal! a\<C-R>%\<Esc>"
