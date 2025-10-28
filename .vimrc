@@ -181,13 +181,11 @@ command! Ql let target_win = winnr('l') | execute target_win . 'wincmd q'
 "-------------------------------------------------------------------------
 
 "-------------------------------------------------------------------------
-" git diff
+" git
 
-command! Diff    vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'      | 1d
-command! Diffh   vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff HEAD #' | 1d
-command! Diffa   vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff'        | 1d
-command! Diffah  vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff HEAD'   | 1d
-command! Filehis vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
+autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'      | 1d
+autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
+autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
 "-------------------------------------------------------------------------
 
 
