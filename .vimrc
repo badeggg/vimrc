@@ -195,6 +195,14 @@ command! Ql let target_win = winnr('l') | execute target_win . 'wincmd q'
 autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'      | 1d
 autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
 autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
+
+" search a hunk
+nnoremap <leader>h :let @/= '^@@' <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
+
+" disable confilict key mappings from git-gutter
+nmap <plug>(disable-hp) <Plug>(GitGutterPreviewHunk)
+nmap <plug>(disable-hu) <Plug>(GitGutterUndoHunk)
+nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 "-------------------------------------------------------------------------
 
 "-------------------------------------------------------------------------
