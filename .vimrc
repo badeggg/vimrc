@@ -89,8 +89,17 @@ call plug#end()
 
 "-------------------------------------------------------------------------
 " color scheme related
+
+" colorscheme murphy
 colorscheme desert
+" colorscheme habamax
+" colorscheme sorbet
+
 autocmd VimEnter * redraw!
+
+highlight GitGutterAdd    guifg=#009900 ctermfg=2 
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
 "-------------------------------------------------------------------------
 
 
@@ -188,6 +197,12 @@ autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile |
 autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
 "-------------------------------------------------------------------------
 
+"-------------------------------------------------------------------------
+" execute :terminal while load .bashrc file
+
+command! -nargs=* Term  term bash -ic <q-args>
+"-------------------------------------------------------------------------
+
 
 "-------------------------------------------------------------------------
 " to delete those lines
@@ -195,12 +210,6 @@ autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile |
 " highlight SignColumn guibg=#ffffff
 " set background=dark
 
-" highlight GitGutterAdd    guifg=#009900 ctermfg=2 
-" highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
-" highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
-
 " to view man page in vim
 " runtime! ftplugin/man.vim
-
-
 "-------------------------------------------------------------------------
