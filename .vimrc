@@ -191,7 +191,6 @@ command! Ql let target_win = winnr('l') | execute target_win . 'wincmd q'
 
 "-------------------------------------------------------------------------
 " git
-
 autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'      | 1d
 autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
 autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
@@ -205,10 +204,18 @@ nmap <plug>(disable-hu) <Plug>(GitGutterUndoHunk)
 nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 "-------------------------------------------------------------------------
 
+
 "-------------------------------------------------------------------------
 " execute :terminal while load .bashrc file
+command! -nargs=* T  botright vertical terminal bash -ic <q-args>
+command! -nargs=* Vt botright vertical terminal bash -ic <q-args>
+command! -nargs=* Ht botright          terminal bash -ic <q-args>
+"-------------------------------------------------------------------------
 
-command! -nargs=* Term  term bash -ic <q-args>
+
+"-------------------------------------------------------------------------
+" open a file whose path is at current line
+" todo
 "-------------------------------------------------------------------------
 
 
