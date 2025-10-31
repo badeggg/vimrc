@@ -197,6 +197,7 @@ autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile |
 
 highlight DiffDelete ctermfg=168
 highlight DiffRemoved ctermfg=168
+highlight DiffAdded ctermfg=35
 
 " search a hunk
 nnoremap <leader>h :let @/= '^@@' <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
