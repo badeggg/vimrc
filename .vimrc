@@ -46,11 +46,11 @@ hi link markdownError NONE
 
 "-------------------------------------------------------------------------
 " search current word without moving cursor
-"         <leader>s : search   sensitive     boundary word
-"        g<leader>s : search   sensitive non-boundary word
-"        c<leader>s : search insensitive     boundary word
-"       cg<leader>s : search insensitive non-boundary word
-"       gc<leader>s : search insensitive non-boundary word
+"   <leader>s : search   sensitive     boundary word
+"  g<leader>s : search   sensitive non-boundary word
+"  c<leader>s : search insensitive     boundary word
+" cg<leader>s : search insensitive non-boundary word
+" gc<leader>s : search insensitive non-boundary word
 nnoremap   <leader>s :let @/=  '\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap  g<leader>s :let @/=    '<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap  c<leader>s :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
@@ -58,11 +58,11 @@ nnoremap cg<leader>s :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histad
 nnoremap gc<leader>s :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
 " search selected content without moving cursor
-"         <leader>s : search   sensitive non-boundary word
-"        g<leader>s : search   sensitive     boundary word
-"        c<leader>s : search insensitive     boundary word
-"       cg<leader>s : search insensitive non-boundary word
-"       gc<leader>s : search insensitive non-boundary word
+"   <leader>s : search   sensitive non-boundary word
+"  g<leader>s : search   sensitive     boundary word
+"  c<leader>s : search insensitive     boundary word
+" cg<leader>s : search insensitive non-boundary word
+" gc<leader>s : search insensitive non-boundary word
 vnoremap   <leader>s "vy:let @/='\V'     . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 vnoremap  g<leader>s "vy:let @/='\V\<'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 vnoremap  c<leader>s "vy:let @/='\V\c'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
@@ -214,8 +214,40 @@ command! -nargs=* Ht botright          terminal bash -ic <q-args>
 
 
 "-------------------------------------------------------------------------
-" open a file whose path is at current line
-" todo
+" open a file whose path is the last item of current line or selected content
+"         <leader><CR> : open in current window(open in new window then close current window actually)
+" <leader><leader><CR> : open in new window
+
+nnoremap         <leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 0})<CR>
+nnoremap <leader><leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 1})<CR>
+vnoremap         <leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 0})<CR>
+vnoremap <leader><leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 1})<CR>
+
+function! OpenLastWord(args)
+    let l:use_reg_v_content = get(a:args, 'use_reg_v_content', 0)
+    let l:open_in_new_window = get(a:args, 'open_in_new_window', 0)
+
+    if !l:use_reg_v_content
+        let l:content = getline('.')
+    else
+        let l:content = getreg('v')
+        echom 'reg v: ' . l:content
+    endif
+
+    let l:content = substitute(l:content, '[\n\0]', '', 'g')
+
+    let l:match = matchlist(l:content, '\(\S\+\)\s*$')
+
+    if !empty(l:match)
+        let l:current_win = winnr()
+        execute 'vsp' fnameescape(l:match[1])
+        if !l:open_in_new_window
+            execute l:current_win . 'wincmd q'
+        endif
+    else
+        echo "No path found on the current line."
+    endif
+endfunction
 "-------------------------------------------------------------------------
 
 
