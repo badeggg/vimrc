@@ -97,6 +97,12 @@ colorscheme desert
 
 autocmd VimEnter * redraw!
 
+highlight StatusLine ctermfg=232 ctermbg=172
+
+highlight DiffDelete ctermfg=168
+highlight DiffRemoved ctermfg=168
+highlight DiffAdded ctermfg=35
+
 highlight GitGutterAdd    guifg=#009900 ctermfg=2 
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
@@ -194,10 +200,6 @@ command! Ql let target_win = winnr('l') | execute target_win . 'wincmd q'
 autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'      | 1d
 autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
 autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
-
-highlight DiffDelete ctermfg=168
-highlight DiffRemoved ctermfg=168
-highlight DiffAdded ctermfg=35
 
 " search a hunk
 nnoremap <leader>h :let @/= '^@@' <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
