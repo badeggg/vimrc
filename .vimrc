@@ -195,6 +195,9 @@ autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile |
 autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
 autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
 
+highlight DiffDelete ctermfg=168
+highlight DiffRemoved ctermfg=168
+
 " search a hunk
 nnoremap <leader>h :let @/= '^@@' <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
 
