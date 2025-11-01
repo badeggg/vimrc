@@ -57,17 +57,32 @@ nnoremap  c<leader>s :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histad
 nnoremap cg<leader>s :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 nnoremap gc<leader>s :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
+function! TrimSpaces(s)
+  return substitute(a:s, '^\s*\|\s*$', '', 'g')
+endfunction
+
+function! TrimNewLines(s)
+  return substitute(a:s, '^[\n\r]*\|[\n\r]*$', '', 'g')
+endfunction
+
+function! EscapeForwardSlashes(s)
+  return substitute(a:s, '[\/]', '\\&', 'g')
+endfunction
+
 " search selected content without moving cursor
-"   <leader>s : search   sensitive non-boundary word
-"  g<leader>s : search   sensitive     boundary word
-"  c<leader>s : search insensitive     boundary word
-" cg<leader>s : search insensitive non-boundary word
-" gc<leader>s : search insensitive non-boundary word
-vnoremap   <leader>s "vy:let @/='\V'     . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap  g<leader>s "vy:let @/='\V\<'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap  c<leader>s "vy:let @/='\V\c'   . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap cg<leader>s "vy:let @/='\V\c\<' . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap gc<leader>s "vy:let @/='\V\c\<' . substitute(substitute(getreg('v'), '[\/]', '\\&', 'g'), '[\n\0]', '', 'g') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+"   <leader>s : search   sensitive non-boundary         word
+"  t<leader>s : search   sensitive non-boundary trimmed word
+"  g<leader>s : search   sensitive     boundary         word
+"  c<leader>s : search insensitive non-boundary         word
+" cg<leader>s : search insensitive     boundary         word
+" gc<leader>s : search insensitive non-boundary         word
+
+vnoremap   <leader>s "vy:let @/='\V'     .            TrimNewLines(EscapeForwardSlashes(getreg('v')))        <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap  t<leader>s "vy:let @/='\V'     . TrimSpaces(TrimNewLines(EscapeForwardSlashes(getreg('v'))))       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap  g<leader>s "vy:let @/='\V\<'   .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap  c<leader>s "vy:let @/='\V\c'   .            TrimNewLines(EscapeForwardSlashes(getreg('v')))        <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap cg<leader>s "vy:let @/='\V\c\<' .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap gc<leader>s "vy:let @/='\V\c\<' .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 "-------------------------------------------------------------------------
 
 
@@ -202,7 +217,9 @@ autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile |
 autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
 
 " search a hunk
-nnoremap <leader>h :let @/= '^@@' <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
+nnoremap h<leader>s :let @/= "^@@.*$"   <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
+" search a file diff
+nnoremap d<leader>s :let @/= "^diff.*$" <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
 
 " disable confilict key mappings from git-gutter
 nmap <plug>(disable-hp) <Plug>(GitGutterPreviewHunk)
