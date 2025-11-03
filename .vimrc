@@ -216,6 +216,8 @@ autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile |
 autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
 autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
 
+command! Add call system('git add ' . shellescape(expand('%'))) | e
+
 " search a hunk
 nnoremap <leader>hs :let @/= "^@@.*$"   <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
 " search a file diff
