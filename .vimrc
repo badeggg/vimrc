@@ -229,11 +229,16 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 
 
 "-------------------------------------------------------------------------
-" execute :terminal while load .bashrc file
-command! -nargs=* T  botright vertical terminal bash -ic <q-args>
-command! -nargs=* Tv botright vertical terminal bash -ic <q-args>
-command! -nargs=* Th botright          terminal bash -ic <q-args>
-command! -nargs=* Tw let s:cur_winsize = &termwinsize | let &termwinsize = '0x9999' | execute 'botright vertical terminal bash -ic "'.<q-args>.'"' | wincmd = | let &termwinsize = s:cur_winsize
+function! TerminalWrapper(args)
+  if empty(a:args)
+    botright vertical terminal
+  else
+    let l:cmd = 'botright vertical terminal bash -ic "' . a:args . '"'
+    execute l:cmd
+  endif
+endfunction
+
+command! -nargs=* T call TerminalWrapper(<q-args>)
 "-------------------------------------------------------------------------
 
 
