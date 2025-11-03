@@ -208,6 +208,11 @@ command! Qh let target_win = winnr('h') | execute target_win . 'wincmd q'
 command! Qj let target_win = winnr('j') | execute target_win . 'wincmd q'
 command! Qk let target_win = winnr('k') | execute target_win . 'wincmd q'
 command! Ql let target_win = winnr('l') | execute target_win . 'wincmd q'
+
+command! QH let target_win = winnr('h') | execute target_win . 'q!'
+command! QJ let target_win = winnr('j') | execute target_win . 'q!'
+command! QK let target_win = winnr('k') | execute target_win . 'q!'
+command! QL let target_win = winnr('l') | execute target_win . 'q!'
 "-------------------------------------------------------------------------
 
 "-------------------------------------------------------------------------
@@ -233,7 +238,7 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 "-------------------------------------------------------------------------
 function! TerminalWrapper(args)
   if empty(a:args)
-    botright vertical terminal
+    vertical terminal
   else
     let l:cmd = 'botright vertical terminal bash -ic "' . a:args . '"'
     execute l:cmd
