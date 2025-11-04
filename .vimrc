@@ -105,10 +105,7 @@ call plug#end()
 "-------------------------------------------------------------------------
 " color scheme related
 
-" colorscheme murphy
 colorscheme desert
-" colorscheme habamax
-" colorscheme sorbet
 
 autocmd VimEnter * redraw!
 
@@ -236,16 +233,18 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 
 
 "-------------------------------------------------------------------------
-function! TerminalWrapper(args)
-  if empty(a:args)
-    vertical terminal
+function! TerminalWrapper(cmd, horizontal)
+  if empty(a:cmd)
+    let l:cmd = a:horizontal ? 'botright terminal' : 'vertical terminal'
+    execute l:cmd
   else
-    let l:cmd = 'botright vertical terminal bash -ic "' . a:args . '"'
+    let l:cmd = (a:horizontal ? 'botright terminal' : 'vertical terminal') . ' bash -ic "' . a:cmd . '"'
     execute l:cmd
   endif
 endfunction
 
-command! -nargs=* T call TerminalWrapper(<q-args>)
+command! -nargs=* T  call TerminalWrapper(<q-args>, 0)
+command! -nargs=* Th call TerminalWrapper(<q-args>, 1)
 "-------------------------------------------------------------------------
 
 
@@ -288,11 +287,55 @@ endfunction
 
 
 "-------------------------------------------------------------------------
-" to delete those lines
+" search last search pattern in buffers
 
-" highlight SignColumn guibg=#ffffff
-" set background=dark
+function! BufNrCompareForward(a, b)
+  return a:a.bufnr - a:b.bufnr
+endfunction
 
-" to view man page in vim
-" runtime! ftplugin/man.vim
+function! BufNrCompareReverse(a, b)
+  return a:b.bufnr - a:a.bufnr
+endfunction
+
+function! SearchBuffers(backwards)
+    " Get the last search pattern directly from the search register (@/)
+    let l:pattern = @/
+
+    if empty(l:pattern)
+        echo "No previous search pattern found."
+        return
+    endif
+
+    let l:current_bufnr = bufnr('%')
+    let l:found_bufnr = 0
+
+    let l:all_buffers = getbufinfo({'buflisted':1})
+
+    if empty(a:backwards)
+        let l:all_buffers = sort(l:all_buffers, 'BufNrCompareForward')
+    else
+        let l:all_buffers = sort(l:all_buffers, 'BufNrCompareReverse')
+    endif
+
+    for l:buf_info in l:all_buffers
+        let l:next_bufnr = l:buf_info.bufnr
+        if (!empty(a:backwards) && l:next_bufnr < l:current_bufnr) || (empty(a:backwards) && l:next_bufnr > l:current_bufnr)
+            let l:next_bufname = buf_info.name
+            execute 'silent! buffer ' . l:next_bufnr
+            if search(l:pattern, 'wc') > 0
+                let l:found_bufnr = l:next_bufnr
+                break
+            endif
+        endif
+    endfor
+
+    if !l:found_bufnr
+        execute 'b' . l:current_bufnr
+        echohl ErrorMsg
+        echom 'Error: Search hit ' . (empty(a:backwards) ? 'last' : 'first') . ' buffer without match for ' . l:pattern
+        echohl None
+    endif
+endfunction
+
+command! -nargs=? SearchBuffers call SearchBuffers(<q-args>) | set hlsearch
 "-------------------------------------------------------------------------
