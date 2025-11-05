@@ -223,7 +223,7 @@ command! Add call system('git add ' . shellescape(expand('%'))) | e
 " search a hunk
 nnoremap <leader>hs :let @/= "^@@.*$"   <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
 " search a file diff
-nnoremap <leader>ds :let @/= "^diff.*$" <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
+nnoremap <leader>ds :let @/= "^diff.*$" <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
 " disable confilict key mappings from git-gutter
 nmap <plug>(disable-hp) <Plug>(GitGutterPreviewHunk)
