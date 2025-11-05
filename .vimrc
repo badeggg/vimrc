@@ -339,3 +339,13 @@ endfunction
 
 command! -nargs=? SearchBuffers call SearchBuffers(<q-args>) | set hlsearch
 "-------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------
+function! OpenInVSCode()
+    " Execute 'code %' but redirect all output to /dev/null
+    " The trailing '&' is important to run it in the background.
+    call system('code ' . shellescape(expand('%')) . ' > /dev/null 2>&1 &')
+endfunction
+command! Code call OpenInVSCode()
+"-------------------------------------------------------------------------
