@@ -214,9 +214,9 @@ command! QL let target_win = winnr('l') | execute target_win . 'q!'
 
 "-------------------------------------------------------------------------
 " git
-autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'      | 1d
-autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'    | 1d
-autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>    | 1d
+autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute '0read! git -P diff #'
+autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute '0read! git -P log -p #'
+autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute '0read! git ' . <q-args>
 
 command! Add call system('git add ' . shellescape(expand('%'))) | e
 
