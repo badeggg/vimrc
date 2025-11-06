@@ -221,7 +221,7 @@ autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile |
 command! Add call system('git add ' . shellescape(expand('%'))) | e
 
 " search a hunk
-nnoremap <leader>hs :let @/= "^@@.*$"   <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>n
+nnoremap <leader>hs :let @/= "^@@.*$"   <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 " search a file diff
 nnoremap <leader>ds :let @/= "^diff.*$" <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
