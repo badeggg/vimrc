@@ -248,10 +248,10 @@ command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0)
 " autocmd VimEnter * command! Filehist     vnew | setlocal ft=git buftype=nofile | execute '0read! git -P log -p #'
 " autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute '0read! git ' . <q-args>
 
-autocmd VimEnter * command!          Diff     call TerminalWrapper('git -P diff --color=always    % | diff-highlight',  0, 1)
-autocmd VimEnter * command!          Show     call TerminalWrapper('git -P show --color=always      | diff-highlight',  0, 1)
-autocmd VimEnter * command!          Filehist call TerminalWrapper('git -P log  --color=always -p % | diff-highlight',  0, 1)
-autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '.<q-args>, 0, 1)
+autocmd VimEnter * command!          Diff     call TerminalWrapper('git -P diff --color=always    %        | diff-highlight',  0, 1)
+autocmd VimEnter * command!          Filehist call TerminalWrapper('git -P log  --color=always -p %        | diff-highlight',  0, 1)
+autocmd VimEnter * command! -nargs=* Show     call TerminalWrapper('git -P show --color=always '.<q-args>.'| diff-highlight',  0, 1)
+autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '                       .<q-args>,                     0, 1)
 
 command! Add call system('git add ' . shellescape(expand('%'))) | e
 
