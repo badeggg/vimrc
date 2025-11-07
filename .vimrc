@@ -212,11 +212,45 @@ command! QK let target_win = winnr('k') | execute target_win . 'q!'
 command! QL let target_win = winnr('l') | execute target_win . 'q!'
 "-------------------------------------------------------------------------
 
+
+"-------------------------------------------------------------------------
+" in-vim terminal
+
+function! TerminalWrapper(cmd, horizontal, unlimited_width)
+    if a:unlimited_width
+        set termwinsize=0x9999
+    else
+        set termwinsize=0x0
+    endif
+
+    if empty(a:cmd)
+        let l:cmd = a:horizontal ? 'botright terminal' : 'vertical terminal'
+        execute l:cmd
+    else
+        let l:cmd = (a:horizontal ? 'botright terminal' : 'vertical terminal') . ' bash -ic "' . a:cmd . '"'
+        execute l:cmd
+    endif
+
+    if a:unlimited_width
+        call feedkeys("\<C-W>=", 't')
+    endif
+endfunction
+
+command! -nargs=* T  call TerminalWrapper(<q-args>, 0, 0)
+command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0)
+"-------------------------------------------------------------------------
+
+
 "-------------------------------------------------------------------------
 " git
-autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute '0read! git -P diff #'
-autocmd VimEnter * command! Filehis      vnew | setlocal ft=git buftype=nofile | execute '0read! git -P log -p #'
-autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute '0read! git ' . <q-args>
+" todo to delete
+" autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute '0read! git -P diff #'
+" autocmd VimEnter * command! Filehist     vnew | setlocal ft=git buftype=nofile | execute '0read! git -P log -p #'
+" autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute '0read! git ' . <q-args>
+
+autocmd VimEnter * command!          Diff     call TerminalWrapper('git diff %',    0, 1)
+autocmd VimEnter * command!          Filehist call TerminalWrapper('git log -p %',  0, 1)
+autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '.<q-args>, 0, 1)
 
 command! Add call system('git add ' . shellescape(expand('%'))) | e
 
@@ -229,22 +263,6 @@ nnoremap <leader>ds :let @/= "^diff.*$" <CR>:set hlsearch<CR>:call histadd('sear
 nmap <plug>(disable-hp) <Plug>(GitGutterPreviewHunk)
 nmap <plug>(disable-hu) <Plug>(GitGutterUndoHunk)
 nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
-"-------------------------------------------------------------------------
-
-
-"-------------------------------------------------------------------------
-function! TerminalWrapper(cmd, horizontal)
-  if empty(a:cmd)
-    let l:cmd = a:horizontal ? 'botright terminal' : 'vertical terminal'
-    execute l:cmd
-  else
-    let l:cmd = (a:horizontal ? 'botright terminal' : 'vertical terminal') . ' bash -ic "' . a:cmd . '"'
-    execute l:cmd
-  endif
-endfunction
-
-command! -nargs=* T  call TerminalWrapper(<q-args>, 0)
-command! -nargs=* Th call TerminalWrapper(<q-args>, 1)
 "-------------------------------------------------------------------------
 
 
