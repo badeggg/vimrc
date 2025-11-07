@@ -224,11 +224,12 @@ function! TerminalWrapper(cmd, horizontal, unlimited_width)
     endif
 
     if empty(a:cmd)
-        let l:cmd = a:horizontal ? 'botright terminal' : 'vertical terminal'
-        execute l:cmd
+        let l:term_command = a:horizontal ? 'botright terminal' : 'vertical terminal'
+        execute l:term_command
     else
-        let l:cmd = (a:horizontal ? 'botright terminal' : 'vertical terminal') . ' bash -ic "' . a:cmd . '"'
-        execute l:cmd
+        let l:escaped_cmd = escape(a:cmd, '`"$\!\')
+        let l:term_command = (a:horizontal ? 'botright terminal' : 'vertical terminal') . ' bash -ic "' . l:escaped_cmd . '"'
+        execute l:term_command
     endif
 
     if a:unlimited_width
