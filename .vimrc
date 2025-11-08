@@ -97,6 +97,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'badeggg/indent-jump.vim'
 Plug 'badeggg/goto-module-ts.vim'
 Plug 'badeggg/git-link.vim'
+Plug 'Makaze/AnsiEsc'
 
 call plug#end()
 "-------------------------------------------------------------------------
@@ -244,15 +245,17 @@ command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0)
 
 "-------------------------------------------------------------------------
 " git
-" todo to delete
-" autocmd VimEnter * command! Diff         vnew | setlocal ft=git buftype=nofile | execute '0read! git -P diff #'
-" autocmd VimEnter * command! Filehist     vnew | setlocal ft=git buftype=nofile | execute '0read! git -P log -p #'
-" autocmd VimEnter * command! -nargs=* Git vnew | setlocal ft=git buftype=nofile | execute '0read! git ' . <q-args>
 
 autocmd VimEnter * command!          Diff     call TerminalWrapper('git -P diff --color=always    %        | diff-highlight',  0, 1)
 autocmd VimEnter * command!          Filehist call TerminalWrapper('git -P log  --color=always -p %        | diff-highlight',  0, 1)
 autocmd VimEnter * command! -nargs=* Show     call TerminalWrapper('git -P show --color=always '.<q-args>.'| diff-highlight',  0, 1)
 autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '                       .<q-args>,                     0, 1)
+
+" Alternative version, the main version may have gibberish
+autocmd VimEnter * command!          ADiff     vnew | setlocal ft=git buftype=nofile | execute '0read! git -P diff #'
+autocmd VimEnter * command!          AFilehist vnew | setlocal ft=git buftype=nofile | execute '0read! git -P log -p #'
+autocmd VimEnter * command! -nargs=* AGit      vnew | setlocal ft=git buftype=nofile | execute '0read! git ' . <q-args>
+
 
 command! Add call system('git add ' . shellescape(expand('%'))) | e
 
