@@ -42,6 +42,8 @@ autocmd FileType * setlocal formatoptions-=r formatoptions-=o
 
 " This disables the red highlight for underscores inside words.
 hi link markdownError NONE
+
+command! SyntaxSyncFromstart syntax sync fromstart
 "-------------------------------------------------------------------------
 
 
@@ -255,7 +257,7 @@ autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '       
 
 " Alternative version, the main version may have gibberish
 autocmd VimEnter * command!          ADiff     vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'    | 1d
-autocmd VimEnter * command!          AFilehist vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'  | 1d
+autocmd VimEnter * command!          AFilehist vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'  | 1d | syn sync minlines=500
 autocmd VimEnter * command! -nargs=* AGit      vnew | setlocal ft=git buftype=nofile | execute 'read! git ' . <q-args>  | 1d
 
 
