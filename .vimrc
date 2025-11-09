@@ -27,6 +27,7 @@ set tags=tags;/
 set re=0
 set laststatus=2
 set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
+set encoding=utf-8
 
 " related to plugin 'preservim/tagbar'
 nnoremap <F8> :TagbarToggle<CR>
@@ -97,7 +98,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'badeggg/indent-jump.vim'
 Plug 'badeggg/goto-module-ts.vim'
 Plug 'badeggg/git-link.vim'
-Plug 'Makaze/AnsiEsc'
+" Plug 'Makaze/AnsiEsc'
 
 call plug#end()
 "-------------------------------------------------------------------------
@@ -239,6 +240,7 @@ function! TerminalWrapper(cmd, horizontal, unlimited_width)
 endfunction
 
 command! -nargs=* T  call TerminalWrapper(<q-args>, 0, 0)
+command! -nargs=* Tu call TerminalWrapper(<q-args>, 0, 1)
 command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0)
 "-------------------------------------------------------------------------
 
