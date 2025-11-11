@@ -394,8 +394,6 @@ function! s:JumpWithWrap(direction, opposite)
 endfunction
 
 " --- Remap C-w h and C-w l to use the wrapping function ---
-" <silent> prevents Vim from echoing the command
-" <C-u> removes any preceding count (so we manage it ourselves in the function)
 nnoremap <silent> <C-w>h :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
 nnoremap <silent> <C-w>l :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
 nnoremap <silent> <C-w>j :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
