@@ -377,3 +377,27 @@ function! OpenInVSCode()
 endfunction
 command! Code call OpenInVSCode()
 "-------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------
+" Window movement with wrap
+function! s:JumpWithWrap(direction, opposite)
+    " Try to move in the desired direction (e.g., 'h' for left)
+    " We use v:count1 to respect any count the user may have given (e.g. 2<C-w>h)
+    let l:prevWinNr = winnr()
+    execute v:count1 . ' wincmd ' . a:direction
+
+    " If the window number hasn't changed, it means the move failed (hit the edge)
+    if winnr() == l:prevWinNr
+        execute 99 . ' wincmd ' . a:opposite
+    endif
+endfunction
+
+" --- Remap C-w h and C-w l to use the wrapping function ---
+" <silent> prevents Vim from echoing the command
+" <C-u> removes any preceding count (so we manage it ourselves in the function)
+nnoremap <silent> <C-w>h :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
+nnoremap <silent> <C-w>l :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
+nnoremap <silent> <C-w>j :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
+nnoremap <silent> <C-w>k :<C-u>call <SID>JumpWithWrap('k', 'j')<CR>
+"-------------------------------------------------------------------------
