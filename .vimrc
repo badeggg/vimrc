@@ -250,10 +250,10 @@ command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0)
 "-------------------------------------------------------------------------
 " git
 
-autocmd VimEnter * command!          Diff     call TerminalWrapper('git -P diff --color=always    %        | diff-highlight',  0, 1)
-autocmd VimEnter * command!          Filehist call TerminalWrapper('git -P log  --color=always -p %        | diff-highlight',  0, 1)
-autocmd VimEnter * command! -nargs=* Show     call TerminalWrapper('git -P show --color=always '.<q-args>.'| diff-highlight',  0, 1)
-autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '                       .<q-args>,                     0, 1)
+autocmd VimEnter * command! -nargs=* Diff     call TerminalWrapper('git -P diff --color=always '.<q-args>.'    % | diff-highlight', 0, 1)
+autocmd VimEnter * command!          Filehist call TerminalWrapper('git -P log  --color=always              -p % | diff-highlight', 0, 1)
+autocmd VimEnter * command! -nargs=* Show     call TerminalWrapper('git -P show --color=always '.<q-args>.'      | diff-highlight', 0, 1)
+autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '                       .<q-args>,                          0, 1)
 
 " Alternative version, the main version may have gibberish
 autocmd VimEnter * command!          ADiff     vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'         | 1d
