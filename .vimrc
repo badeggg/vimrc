@@ -251,15 +251,15 @@ command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0)
 " git
 
 autocmd VimEnter * command! -nargs=* Diff     call TerminalWrapper('git -P diff --color=always '.<q-args>.'    % | diff-highlight', 0, 1)
-autocmd VimEnter * command!          Filehist call TerminalWrapper('git -P log  --color=always              -p % | diff-highlight', 0, 1)
+autocmd VimEnter * command!          Filehist call TerminalWrapper('git -P log  --color=always  -p             % | diff-highlight', 0, 1)
 autocmd VimEnter * command! -nargs=* Show     call TerminalWrapper('git -P show --color=always '.<q-args>.'      | diff-highlight', 0, 1)
 autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '                       .<q-args>,                          0, 1)
 
 " Alternative version, the main version may have gibberish
-autocmd VimEnter * command!          ADiff     vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff #'         | 1d
-autocmd VimEnter * command!          AFilehist vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log -p #'       | 1d | syn sync minlines=500
-autocmd VimEnter * command! -nargs=* AShow     vnew | setlocal ft=git buftype=nofile | execute 'read! git    show '.<q-args> | 1d
-autocmd VimEnter * command! -nargs=* AGit      vnew | setlocal ft=git buftype=nofile | execute 'read! git '        .<q-args> | 1d
+autocmd VimEnter * command! -nargs=* ADiff     vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff '.<q-args>.' #' | 1d
+autocmd VimEnter * command!          AFilehist vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log   -p          #' | 1d | syn sync minlines=500
+autocmd VimEnter * command! -nargs=* AShow     vnew | setlocal ft=git buftype=nofile | execute 'read! git    show '.<q-args>      | 1d
+autocmd VimEnter * command! -nargs=* AGit      vnew | setlocal ft=git buftype=nofile | execute 'read! git '        .<q-args>      | 1d
 
 
 command! Add call system('git add ' . shellescape(expand('%'))) | e
