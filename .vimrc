@@ -262,7 +262,9 @@ autocmd VimEnter * command! -nargs=* AShow     vnew | setlocal ft=git buftype=no
 autocmd VimEnter * command! -nargs=* AGit      vnew | setlocal ft=git buftype=nofile | execute 'read! git '        .<q-args>      | 1d
 
 
-command! Add call system('git add ' . shellescape(expand('%'))) | e
+command! Add   call system('git add      ' . shellescape(expand('%'))) | e
+command! Drop  call system('git checkout ' . shellescape(expand('%'))) | e
+command! Reset call system('git reset    ' . shellescape(expand('%'))) | e
 
 " search a hunk
 nnoremap <leader>hs :let @/= "^@@.*$"   <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
