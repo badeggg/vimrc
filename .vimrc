@@ -327,12 +327,18 @@ function! BufNrCompareReverse(a, b)
   return a:b.bufnr - a:a.bufnr
 endfunction
 
-function! SearchBuffers(backwards)
-    " Get the last search pattern directly from the search register (@/)
-    let l:pattern = @/
+function! SearchBuffers(search_pattern, backwards)
+    let l:pattern = a:search_pattern
+    if empty(l:pattern)
+        " Get the last search pattern if not specified
+        let l:pattern = @/
+    else
+        let @/ = l:pattern
+        call histadd('search', l:pattern)
+    endif
 
     if empty(l:pattern)
-        echo "No previous search pattern found."
+        echo "No search pattern found."
         return
     endif
 
@@ -367,7 +373,8 @@ function! SearchBuffers(backwards)
     endif
 endfunction
 
-command! -nargs=? SearchBuffers call SearchBuffers(<q-args>) | set hlsearch
+command! -nargs=? SearchBuffers          call SearchBuffers(<q-args>, 0) | set hlsearch
+command! -nargs=? SearchBuffersBackwards call SearchBuffers(<q-args>, 1) | set hlsearch
 "-------------------------------------------------------------------------
 
 
