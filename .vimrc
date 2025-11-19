@@ -284,11 +284,6 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 "         <leader><CR> : open in current window(open in new window then close current window actually)
 " <leader><leader><CR> : open in new window
 
-nnoremap         <leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 0})<CR>
-nnoremap <leader><leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 1})<CR>
-vnoremap         <leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 0})<CR>
-vnoremap <leader><leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 1})<CR>
-
 function! OpenLastWord(args)
     let l:use_reg_v_content = get(a:args, 'use_reg_v_content', 0)
     let l:open_in_new_window = get(a:args, 'open_in_new_window', 0)
@@ -314,6 +309,11 @@ function! OpenLastWord(args)
         echo "No path found on the current line."
     endif
 endfunction
+
+nnoremap         <leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 0})<CR>
+nnoremap <leader><leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 1})<CR>
+vnoremap         <leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 0})<CR>
+vnoremap <leader><leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 1})<CR>
 "-------------------------------------------------------------------------
 
 
@@ -390,7 +390,7 @@ command! Code call OpenInVSCode()
 
 
 "-------------------------------------------------------------------------
-" Window movement with wrap
+" Jump to window with wrap
 function! s:JumpWithWrap(direction, opposite)
     " Try to move in the desired direction (e.g., 'h' for left)
     " We use v:count1 to respect any count the user may have given (e.g. 2<C-w>h)
@@ -408,4 +408,39 @@ nnoremap <silent> <C-w>h :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
 nnoremap <silent> <C-w>l :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
 nnoremap <silent> <C-w>j :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
 nnoremap <silent> <C-w>k :<C-u>call <SID>JumpWithWrap('k', 'j')<CR>
+"-------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------
+" Adjust window size
+
+function! GetAmountStr(amount, opposite)
+    let l:arg_str = empty(a:amount) ? "10" : a:amount
+
+    try
+        let l:amount = str2nr(l:arg_str)
+    catch
+        echoerr "Invalid numeric argument : " . l:arg_str
+    endtry
+
+    if !a:opposite
+        if l:amount < 0
+            return '-' . abs(l:amount)
+        else
+            return '+' . l:amount
+        endif
+    else
+        if l:amount < 0
+            return '+' . abs(l:amount)
+        else
+            return '-' . l:amount
+        endif
+    endif
+endfunction
+
+
+command! -nargs=? Wider    execute 'vertical resize ' . GetAmountStr(<q-args>, 0)
+command! -nargs=? Narrower execute 'vertical resize ' . GetAmountStr(<q-args>, 1)
+command! -nargs=? Higher   execute '         resize ' . GetAmountStr(<q-args>, 0)
+command! -nargs=? Shorter  execute '         resize ' . GetAmountStr(<q-args>, 1)
 "-------------------------------------------------------------------------
