@@ -39,11 +39,6 @@ filetype plugin on
 
 " no auto comment leader insertion
 autocmd FileType * setlocal formatoptions-=r formatoptions-=o
-
-" This disables the red highlight for underscores inside words.
-hi link markdownError NONE
-
-command! SyntaxSyncFromstart syntax sync fromstart
 "-------------------------------------------------------------------------
 
 
@@ -122,6 +117,12 @@ highlight DiffAdded ctermfg=35
 highlight GitGutterAdd    guifg=#009900 ctermfg=2 
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3 
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1 
+
+" This disables the red highlight for underscores inside words in markdown.
+" This line must be after colorscheme changing.
+hi link markdownError NONE
+
+command! SyntaxSyncFromstart syntax sync fromstart
 "-------------------------------------------------------------------------
 
 
