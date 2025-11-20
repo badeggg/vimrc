@@ -267,7 +267,7 @@ autocmd VimEnter * command! -nargs=* LastVersion
   \ vnew |
   \ setlocal buftype=nofile |
   \ execute 'setlocal ft=' . s:ft |
-  \ execute 'read! git cat-file -p '.<q-args>.':./#' |
+  \ execute 'read! git cat-file -p '.(empty(<q-args>) ? 'HEAD' : <q-args>).':./#' |
   \ 1d
 
 
