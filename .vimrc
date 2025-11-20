@@ -262,6 +262,14 @@ autocmd VimEnter * command!          AFilehist vnew | setlocal ft=git buftype=no
 autocmd VimEnter * command! -nargs=* AShow     vnew | setlocal ft=git buftype=nofile | execute 'read! git    show '.<q-args>      | 1d
 autocmd VimEnter * command! -nargs=* AGit      vnew | setlocal ft=git buftype=nofile | execute 'read! git '        .<q-args>      | 1d
 
+autocmd VimEnter * command! -nargs=* LastVersion
+  \ let s:ft = &filetype |
+  \ vnew |
+  \ setlocal buftype=nofile |
+  \ execute 'setlocal ft=' . s:ft |
+  \ execute 'read! git cat-file -p '.<q-args>.':./#' |
+  \ 1d
+
 
 command! Add   call system('git add      ' . shellescape(expand('%'))) | e
 command! Drop  call system('git checkout ' . shellescape(expand('%'))) | e
