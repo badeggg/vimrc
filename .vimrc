@@ -293,25 +293,24 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 " <leader><leader><CR> : open in new window
 
 function! OpenLastWord(args)
-    let l:use_reg_v_content = get(a:args, 'use_reg_v_content', 0)
-    let l:open_in_new_window = get(a:args, 'open_in_new_window', 0)
+    let use_reg_v_content = get(a:args, 'use_reg_v_content', 0)
+    let open_in_new_window = get(a:args, 'open_in_new_window', 0)
 
-    if !l:use_reg_v_content
-        let l:content = getline('.')
+    if !use_reg_v_content
+        let content = getline('.')
     else
-        let l:content = getreg('v')
-        echom 'reg v: ' . l:content
+        let content = getreg('v')
     endif
 
-    let l:content = substitute(l:content, '[\n\0]', '', 'g')
+    let content = substitute(content, '\n', '', 'g')
 
-    let l:match = matchlist(l:content, '\(\S\+\)\s*$')
+    let match = matchlist(content, '\(\S\+\)\s*$')
 
-    if !empty(l:match)
-        let l:current_win = winnr()
-        execute 'vsp' fnameescape(l:match[1])
-        if !l:open_in_new_window
-            execute l:current_win . 'wincmd q'
+    if !empty(match)
+        let current_win = winnr()
+        execute 'vsp' fnameescape(match[1])
+        if !open_in_new_window
+            execute current_win . 'wincmd q'
         endif
     else
         echo "No path found on the current line."
