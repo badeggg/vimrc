@@ -127,7 +127,7 @@ command! SyntaxSyncFromstart syntax sync fromstart
 
 
 "-------------------------------------------------------------------------
-" prettier current file
+" format current file
 function! FormatCurrentFile()
     let l:cur_pos = getcurpos()
     let l:content = join(getline(1, '$'), "\n") " Get all content
