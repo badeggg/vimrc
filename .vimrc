@@ -128,43 +128,62 @@ command! SyntaxSyncFromstart syntax sync fromstart
 
 "-------------------------------------------------------------------------
 " prettier current file
-function! PrettifyCurrentFile()
-  let l:cur_pos = getcurpos()
-  let l:content = join(getline(1, '$'), "\n") " Get all content
-  let l:filetype_supported = (&filetype =~# '\v^(javascript|typescript|javascriptreact|typescriptreact|json|css|scss|less)$')
+function! FormatCurrentFile()
+    let l:cur_pos = getcurpos()
+    let l:content = join(getline(1, '$'), "\n") " Get all content
+    let l:filetype = &filetype
+    let l:cmd = ''
+    let l:success_msg = ''
+    let l:formatter_name = ''
 
-  if l:filetype_supported
-    let l:cmd = 'npx prettier --stdin-filepath ' . shellescape(expand('%'))
+    if l:filetype =~# '\v^(javascript|typescript|javascriptreact|typescriptreact|json|css|scss|less)$'
+        " Use Prettier for JS/TS/CSS/JSON
+        let l:formatter_name = 'Prettier'
+        let l:cmd = 'npx prettier --stdin-filepath ' . shellescape(expand('%'))
+        let l:success_msg = l:formatter_name . " successfully formatted the file! ✨"
+    elseif l:filetype =~# '\v^(c|cpp|h|hpp)$'
+        " Use ClangFormat for C/C++
+        let l:formatter_name = 'ClangFormat'
+        let l:cmd = 'clang-format -style=file -assume-filename=' . shellescape(expand('%'))
+        let l:success_msg = l:formatter_name . " successfully formatted the file! 🔧"
+    else
+        " Unsupported File Type
+        echohl ErrorMsg | echom "Error: File type (" . l:filetype . ") is unsupported." | echohl None
+        return
+    endif
 
+    " --- Execute the Command ---
     " Use system() to run the command and feed it l:content via stdin.
     let l:output = system(l:cmd, l:content)
-    
+
     " Check the exit code. v:shell_error is set by system()
     if v:shell_error == 0
-      " Success: Replace the buffer content.
-      let l:output_split = split(l:output, "\n")
-      let l:origin_longer = line('$') - len(l:output_split)
-      if l:origin_longer >= 1
-          " delete longer text in original content
-          silent! execute '$-' . l:origin_longer . ',$d'
-      endif
-      call setline(1, l:output_split)
-      echom "File prettified successfully! ✨"
-    else
-      " Failure: The buffer is NOT touched. l:output contains the error.
-      echohl ErrorMsg
-      echom "Prettier failed! Check the error below:"
-      echom l:output
-      echohl None
-    endif
-  else
-    echohl ErrorMsg | echom "Error: File type unsupported." | echohl None
-  endif
+        " Success: Replace the buffer content.
+        let l:output_split = split(l:output, "\n")
 
-  call setpos('.', l:cur_pos)
+        " Handle replacing content, adjusting for line count differences
+        let l:origin_longer = line('$') - len(l:output_split)
+        if l:origin_longer >= 1
+            " Delete excess lines if original content was longer
+            silent! execute '$-' . l:origin_longer . ',$d'
+        endif
+        call setline(1, l:output_split)
+
+        echom l:success_msg
+    else
+        " Failure: The buffer is NOT touched. l:output contains the error.
+        echohl ErrorMsg
+        echom l:formatter_name . " failed! Check the error below:"
+        " Show the error message (limiting to a few lines)
+        echom join(split(l:output, "\n")[0:2], "\n")
+        echohl None
+    endif
+
+    " Restore original cursor position
+    call setpos('.', l:cur_pos)
 endfunction
 
-nmap <leader>f :call PrettifyCurrentFile()<CR>:w<CR>
+nmap <leader>f :call FormatCurrentFile()<CR>:w<CR>
 "-------------------------------------------------------------------------
 
 
