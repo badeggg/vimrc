@@ -400,6 +400,7 @@ function! SearchBuffers(search_pattern, backwards)
     endif
 endfunction
 
+" todo, wrapscan?
 command! -nargs=? SearchBuffers          call SearchBuffers(<q-args>, 0) | set hlsearch
 command! -nargs=? SearchBuffersBackwards call SearchBuffers(<q-args>, 1) | set hlsearch
 "-------------------------------------------------------------------------
