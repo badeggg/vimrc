@@ -213,7 +213,7 @@ function! SearchFileName()
   endif
 endfunction
 
-command! SearchFileName execute 'call SearchFileName()' | set hlsearch
+command! SFileName execute 'call SearchFileName()' | set hlsearch
 
 command! PasteFileName         execute "normal! a\<C-R>=expand('%:t')\<CR>\<Esc>"
 command! PasteFilePath         execute "normal! a\<C-R>%\<Esc>"
@@ -351,62 +351,98 @@ vnoremap <leader><leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'op
 " search last search pattern in buffers
 
 function! BufNrCompareForward(a, b)
-  return a:a.bufnr - a:b.bufnr
+    let a_bufnr = a:a.bufnr
+    let b_bufnr = a:b.bufnr
+
+    let max_bufnr = bufnr('$')
+
+    if a_bufnr < s:current_bufnr
+        let a_bufnr = a_bufnr + max_bufnr
+    endif
+
+    if b_bufnr < s:current_bufnr
+        let b_bufnr = b_bufnr + max_bufnr
+    endif
+
+    return a_bufnr - b_bufnr
 endfunction
 
 function! BufNrCompareReverse(a, b)
-  return a:b.bufnr - a:a.bufnr
-endfunction
+    let a_bufnr = a:a.bufnr
+    let b_bufnr = a:b.bufnr
 
-function! SearchBuffers(search_pattern, backwards)
-    let l:pattern = a:search_pattern
-    if empty(l:pattern)
-        " Get the last search pattern if not specified
-        let l:pattern = @/
-    else
-        let @/ = l:pattern
-        call histadd('search', l:pattern)
+    let max_bufnr = bufnr('$')
+
+    if a_bufnr > s:current_bufnr
+        let a_bufnr = a_bufnr - max_bufnr
     endif
 
-    if empty(l:pattern)
+    if b_bufnr > s:current_bufnr
+        let b_bufnr = b_bufnr - max_bufnr
+    endif
+
+    return b_bufnr - a_bufnr
+endfunction
+
+function! SearchBuffers(search_pattern, backwards, wrap)
+    let pattern = a:search_pattern
+    if empty(pattern)
+        " Get the last search pattern if not specified
+        let pattern = @/
+    else
+        let @/ = pattern
+        call histadd('search', pattern)
+    endif
+
+    if empty(pattern)
         echo "No search pattern found."
         return
     endif
 
-    let l:current_bufnr = bufnr('%')
-    let l:found_bufnr = 0
+    let s:current_bufnr = bufnr('%')
+    let max_bufnr = bufnr('$')
+    let found_bufnr = 0
 
-    let l:all_buffers = getbufinfo({'buflisted':1})
+    let all_buffers = getbufinfo({'buflisted':1})
 
-    if empty(a:backwards)
-        let l:all_buffers = sort(l:all_buffers, 'BufNrCompareForward')
+    " make all_buffers a list from current buffer
+    if !a:backwards
+        let all_buffers = sort(all_buffers, 'BufNrCompareForward')
     else
-        let l:all_buffers = sort(l:all_buffers, 'BufNrCompareReverse')
+        let all_buffers = sort(all_buffers, 'BufNrCompareReverse')
     endif
 
-    for l:buf_info in l:all_buffers
-        let l:next_bufnr = l:buf_info.bufnr
-        if (!empty(a:backwards) && l:next_bufnr < l:current_bufnr) || (empty(a:backwards) && l:next_bufnr > l:current_bufnr)
-            let l:next_bufname = buf_info.name
-            execute 'silent! buffer ' . l:next_bufnr
-            if search(l:pattern, 'wc') > 0
-                let l:found_bufnr = l:next_bufnr
-                break
-            endif
+    for buf_info in all_buffers
+        let next_bufnr = buf_info.bufnr
+
+        if next_bufnr == s:current_bufnr
+            continue
+        endif
+
+        if !a:wrap && ((!a:backwards && next_bufnr < s:current_bufnr) || (a:backwards && next_bufnr > s:current_bufnr))
+            continue
+        endif
+
+        let next_bufname = buf_info.name
+        execute 'silent! buffer ' . next_bufnr
+        if search(pattern, 'wc') > 0
+            let found_bufnr = next_bufnr
+            break
         endif
     endfor
 
-    if !l:found_bufnr
-        execute 'b' . l:current_bufnr
+    if !found_bufnr
+        execute 'b' . s:current_bufnr
         echohl ErrorMsg
-        echom 'Error: Search hit ' . (empty(a:backwards) ? 'last' : 'first') . ' buffer without match for ' . l:pattern
+        echom 'Error: Can not find match for ' . pattern
         echohl None
     endif
 endfunction
 
-" todo, wrapscan?
-command! -nargs=? SearchBuffers          call SearchBuffers(<q-args>, 0) | set hlsearch
-command! -nargs=? SearchBuffersBackwards call SearchBuffers(<q-args>, 1) | set hlsearch
+command! -nargs=? SBuffers                call SearchBuffers(<q-args>, 0, 1) | set hlsearch
+command! -nargs=? SBuffersBackwards       call SearchBuffers(<q-args>, 1, 1) | set hlsearch
+command! -nargs=? SBuffersNoWrap          call SearchBuffers(<q-args>, 0, 0) | set hlsearch
+command! -nargs=? SBuffersBackwardsNoWrap call SearchBuffers(<q-args>, 1, 0) | set hlsearch
 "-------------------------------------------------------------------------
 
 
