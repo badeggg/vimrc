@@ -419,7 +419,10 @@ function! SearchBuffers(search_pattern, backwards, wrap)
             continue
         endif
 
-        if !a:wrap && ((!a:backwards && next_bufnr < s:current_bufnr) || (a:backwards && next_bufnr > s:current_bufnr))
+        if !a:wrap && (
+            \    (!a:backwards && next_bufnr < s:current_bufnr)
+            \ || (a:backwards && next_bufnr > s:current_bufnr)
+            \ )
             continue
         endif
 
