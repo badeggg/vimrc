@@ -41,6 +41,8 @@ filetype plugin on
 autocmd FileType * setlocal formatoptions-=r formatoptions-=o
 
 command! Bufnr echo bufnr('%')
+
+vnoremap Y "*y
 "-------------------------------------------------------------------------
 
 
