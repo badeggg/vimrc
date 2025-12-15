@@ -48,16 +48,14 @@ vnoremap Y "*y
 
 "-------------------------------------------------------------------------
 " search current word without moving cursor
-" <leader>s   : search   sensitive     boundary word
-" <leader>gs  : search   sensitive non-boundary word
-" <leader>cs  : search insensitive     boundary word
-" <leader>cgs : search insensitive non-boundary word
-" <leader>gcs : search insensitive non-boundary word
-nnoremap <leader>s   :let @/=  '\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap <leader>gs  :let @/=    '<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap <leader>cs  :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap <leader>cgs :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap <leader>gcs :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+" <leader>s  : search   sensitive     boundary word
+" <leader>S  : search   sensitive non-boundary word
+" <leader>cs : search insensitive     boundary word
+" <leader>cS : search insensitive non-boundary word
+nnoremap <leader>s  :let @/=  '\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap <leader>S  :let @/=    '<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap <leader>cs :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap <leader>cS :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
 function! TrimSpaces(s)
   return substitute(a:s, '^\s*\|\s*$', '', 'g')
@@ -73,18 +71,16 @@ endfunction
 
 " search selected content without moving cursor
 "   <leader>s : search   sensitive non-boundary         word
-"  <leader>ts : search   sensitive non-boundary trimmed word
-"  <leader>gs : search   sensitive     boundary         word
+"   <leader>S : search   sensitive     boundary         word
 "  <leader>cs : search insensitive non-boundary         word
-" <leader>cgs : search insensitive     boundary         word
-" <leader>gcs : search insensitive non-boundary         word
+"  <leader>cS : search insensitive     boundary         word
+"  <leader>ts : search   sensitive non-boundary trimmed word
 
 vnoremap   <leader>s "vy:let @/='\V'     .            TrimNewLines(EscapeForwardSlashes(getreg('v')))        <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap  <leader>ts "vy:let @/='\V'     . TrimSpaces(TrimNewLines(EscapeForwardSlashes(getreg('v'))))       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap  <leader>gs "vy:let @/='\V\<'   .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap   <leader>S "vy:let @/='\V\<'   .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 vnoremap  <leader>cs "vy:let @/='\V\c'   .            TrimNewLines(EscapeForwardSlashes(getreg('v')))        <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap <leader>cgs "vy:let @/='\V\c\<' .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-vnoremap <leader>gcs "vy:let @/='\V\c\<' .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap  <leader>cS "vy:let @/='\V\c\<' .            TrimNewLines(EscapeForwardSlashes(getreg('v')))  . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+vnoremap  <leader>ts "vy:let @/='\V'     . TrimSpaces(TrimNewLines(EscapeForwardSlashes(getreg('v'))))       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 "-------------------------------------------------------------------------
 
 
