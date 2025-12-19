@@ -58,15 +58,22 @@ nnoremap <leader>cs :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd
 nnoremap <leader>cS :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
 function! TrimSpaces(s)
-  return substitute(a:s, '^\s*\|\s*$', '', 'g')
+    return substitute(a:s, '^\s*\|\s*$', '', 'g')
 endfunction
 
 function! TrimNewLines(s)
-  return substitute(a:s, '^[\n\r]*\|[\n\r]*$', '', 'g')
+    " Guess single line searching if only one \n exists, trim \n (Null)
+    " Guess multi line searching if multiple \n exist, don't trim \n
+    let text = (count(a:s, "\n") == 1) ? substitute(a:s, '^\n\|\n$', '', 'g') : a:s
+
+    " Convert internal 'Nulls' into the literal characters '\' and 'n'
+    let text = substitute(l:text, '\n', '\\n', 'g')
+
+    return text
 endfunction
 
 function! EscapeForwardSlashes(s)
-  return substitute(a:s, '[\/]', '\\&', 'g')
+    return substitute(a:s, '[\/]', '\\&', 'g')
 endfunction
 
 " search selected content without moving cursor
