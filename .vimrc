@@ -314,13 +314,27 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 
 
 "-------------------------------------------------------------------------
-" open a file whose path is the last item of current line or selected content
-"         <leader><CR> : open in current window(open in new window then close current window actually)
-" <leader><leader><CR> : open in new window
+" open a file whose path is the last/first item of current line or selected content.
+"
+"         <leader><CR> : open last item(file) in current window
+" <leader><leader><CR> : open last item(file) in new window
+"
+"            <leader>' : open first item(file) in current window
+"    <leader><leader>' : open first item(file) in new window
+"
+"    We can't use <shift><CR> as key map. Single quote(') is used since it
+"    sit at the left of 'enter' key on keyboard.
+"
+" Those chars are regarded as separators:
+"   - space   ( )
+"   - tab     (\t)
+"   - newline (\n)
+"   - colon   (:)
 
-function! OpenLastWord(args)
+function! OpenWord(args)
     let use_reg_v_content = get(a:args, 'use_reg_v_content', 0)
     let open_in_new_window = get(a:args, 'open_in_new_window', 0)
+    let position = get(a:args, 'position', 'end') " 'start' | 'end'
 
     if !use_reg_v_content
         let content = getline('.')
@@ -328,25 +342,91 @@ function! OpenLastWord(args)
         let content = getreg('v')
     endif
 
-    let content = substitute(content, '\n', '', 'g')
+    " Split on space, tab, newline, or colon
+    let word_list = split(content, '[ \t\n:]\+')
+    call filter(word_list, 'v:val != ""')
 
-    let match = matchlist(content, '\(\S\+\)\s*$')
+    let file = ''
+    let line = ''
+    let column = ''
 
-    if !empty(match)
-        let current_win = winnr()
-        execute 'vsp' fnameescape(match[1])
-        if !open_in_new_window
-            execute current_win . 'wincmd q'
+    if position == 'start'
+        for word in word_list
+            if empty(file)
+                let file = word
+                continue
+            elseif empty(line)
+                if word =~ '^\d\+$'
+                    let line = word
+                    continue
+                else
+                    break
+                endif
+            elseif empty(column)
+                if word =~ '^\d\+$'
+                    let column = word
+                    break
+                else
+                    break
+                endif
+            endif
+            break
+        endfor
+    elseif position == 'end'
+        echom 'word_list: ' . string(word_list)
+
+        let word_count = len(word_list)
+        let last_word      = get(word_list, -1, "")
+        let second_to_last = get(word_list, -2, "")
+        let third_to_last  = get(word_list, -3, "")
+
+        if word_count == 1
+            let file = last_word
+        elseif word_count == 2
+            if last_word =~ '^\d\+$'
+                let file = second_to_last
+                let line = last_word
+            else
+                let file = last_word
+            endif
+        elseif word_count >= 3
+            if last_word =~ '^\d\+$' && second_to_last =~ '^\d\+$'
+                let file = third_to_last
+                let line = second_to_last
+                let column = last_word
+            elseif last_word =~ '^\d\+$'
+                let file = second_to_last
+                let line = last_word
+            else
+                let file = last_word
+            endif
+        endif
+    endif
+
+    if !empty(file)
+        if open_in_new_window
+            execute 'vs' fnameescape(file)
+        else
+            execute 'edit' fnameescape(file)
+        endif
+
+        if !empty(line)
+            call cursor(str2nr(line), !empty(column) ? str2nr(column) : 1)
         endif
     else
-        echo "No path found on the current line."
+        echo "No path found."
     endif
 endfunction
 
-nnoremap         <leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 0})<CR>
-nnoremap <leader><leader><CR>    :call OpenLastWord({'use_reg_v_content': 0, 'open_in_new_window': 1})<CR>
-vnoremap         <leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 0})<CR>
-vnoremap <leader><leader><CR> "vy:call OpenLastWord({'use_reg_v_content': 1, 'open_in_new_window': 1})<CR>
+nnoremap         <leader><CR>    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 0, 'position': 'end'})<CR>
+nnoremap <leader><leader><CR>    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 1, 'position': 'end'})<CR>
+vnoremap         <leader><CR> "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 0, 'position': 'end'})<CR>
+vnoremap <leader><leader><CR> "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 1, 'position': 'end'})<CR>
+
+nnoremap            <leader>'    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 0, 'position': 'start'})<CR>
+nnoremap    <leader><leader>'    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 1, 'position': 'start'})<CR>
+vnoremap            <leader>' "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 0, 'position': 'start'})<CR>
+vnoremap    <leader><leader>' "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 1, 'position': 'start'})<CR>
 "-------------------------------------------------------------------------
 
 
