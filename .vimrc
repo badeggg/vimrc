@@ -314,13 +314,13 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 
 
 "-------------------------------------------------------------------------
-" open a file whose path is the last/first item of current line or selected content.
+" open a file whose path is the last/first word of current line or selected content.
 "
-"         <leader><CR> : open last item(file) in current window
-" <leader><leader><CR> : open last item(file) in new window
+"         <leader><CR> : open last word(file) in current window
+" <leader><leader><CR> : open last word(file) in new window
 "
-"            <leader>' : open first item(file) in current window
-"    <leader><leader>' : open first item(file) in new window
+"            <leader>' : open first word(file) in current window
+"    <leader><leader>' : open first word(file) in new window
 "
 "    We can't use <shift><CR> as key map. Single quote(') is used since it
 "    sit at the left of 'enter' key on keyboard.
@@ -331,7 +331,7 @@ nmap <plug>(disable-hs) <Plug>(GitGutterStageHunk)
 "   - newline (\n)
 "   - colon   (:)
 
-function! OpenWord(args)
+function! OpenFile(args)
     let use_reg_v_content = get(a:args, 'use_reg_v_content', 0)
     let open_in_new_window = get(a:args, 'open_in_new_window', 0)
     let position = get(a:args, 'position', 'end') " 'start' | 'end'
@@ -418,15 +418,15 @@ function! OpenWord(args)
     endif
 endfunction
 
-nnoremap         <leader><CR>    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 0, 'position': 'end'})<CR>
-nnoremap <leader><leader><CR>    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 1, 'position': 'end'})<CR>
-vnoremap         <leader><CR> "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 0, 'position': 'end'})<CR>
-vnoremap <leader><leader><CR> "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 1, 'position': 'end'})<CR>
+nnoremap         <leader><CR>    :call OpenFile({'use_reg_v_content': 0, 'open_in_new_window': 0, 'position': 'end'})<CR>
+nnoremap <leader><leader><CR>    :call OpenFile({'use_reg_v_content': 0, 'open_in_new_window': 1, 'position': 'end'})<CR>
+vnoremap         <leader><CR> "vy:call OpenFile({'use_reg_v_content': 1, 'open_in_new_window': 0, 'position': 'end'})<CR>
+vnoremap <leader><leader><CR> "vy:call OpenFile({'use_reg_v_content': 1, 'open_in_new_window': 1, 'position': 'end'})<CR>
 
-nnoremap            <leader>'    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 0, 'position': 'start'})<CR>
-nnoremap    <leader><leader>'    :call OpenWord({'use_reg_v_content': 0, 'open_in_new_window': 1, 'position': 'start'})<CR>
-vnoremap            <leader>' "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 0, 'position': 'start'})<CR>
-vnoremap    <leader><leader>' "vy:call OpenWord({'use_reg_v_content': 1, 'open_in_new_window': 1, 'position': 'start'})<CR>
+nnoremap            <leader>'    :call OpenFile({'use_reg_v_content': 0, 'open_in_new_window': 0, 'position': 'start'})<CR>
+nnoremap    <leader><leader>'    :call OpenFile({'use_reg_v_content': 0, 'open_in_new_window': 1, 'position': 'start'})<CR>
+vnoremap            <leader>' "vy:call OpenFile({'use_reg_v_content': 1, 'open_in_new_window': 0, 'position': 'start'})<CR>
+vnoremap    <leader><leader>' "vy:call OpenFile({'use_reg_v_content': 1, 'open_in_new_window': 1, 'position': 'start'})<CR>
 "-------------------------------------------------------------------------
 
 
