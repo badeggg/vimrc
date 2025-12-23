@@ -247,20 +247,31 @@ command! QL let target_win = winnr('l') | execute target_win . 'q!'
 "-------------------------------------------------------------------------
 " in-vim terminal
 
-function! TerminalWrapper(cmd, horizontal, unlimited_width)
+function! TerminalWrapper(cmd, horizontal, unlimited_width, tab)
     if a:unlimited_width
         set termwinsize=0x9999
     else
         set termwinsize=0x0
     endif
 
-    if empty(a:cmd)
-        let l:term_command = a:horizontal ? 'botright terminal' : 'vertical terminal'
-        execute l:term_command
+    let term_command = 'terminal'
+    if a:horizontal
+        let term_command = 'botright ' . term_command
     else
-        let l:escaped_cmd = escape(a:cmd, '`"$\!\')
-        let l:term_command = (a:horizontal ? 'botright terminal' : 'vertical terminal') . ' bash -ic "' . l:escaped_cmd . '"'
-        execute l:term_command
+        let term_command = 'vertical ' . term_command
+    endif
+
+    if a:tab
+        let term_command = 'tab ' . term_command
+    endif
+
+
+    if empty(a:cmd)
+        execute term_command
+    else
+        let escaped_cmd = escape(a:cmd, '`"$\!\')
+        let term_command = term_command . ' bash -ic "' . escaped_cmd . '"'
+        execute term_command
     endif
 
     if a:unlimited_width
@@ -268,9 +279,10 @@ function! TerminalWrapper(cmd, horizontal, unlimited_width)
     endif
 endfunction
 
-command! -nargs=* T  call TerminalWrapper(<q-args>, 0, 0)
-command! -nargs=* Tu call TerminalWrapper(<q-args>, 0, 1)
-command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0)
+command! -nargs=* T  call TerminalWrapper(<q-args>, 0, 0, 0)
+command! -nargs=* Tu call TerminalWrapper(<q-args>, 0, 1, 0)
+command! -nargs=* Th call TerminalWrapper(<q-args>, 1, 0, 0)
+command! -nargs=* Tt call TerminalWrapper(<q-args>, 1, 0, 1)
 "-------------------------------------------------------------------------
 
 
