@@ -311,9 +311,10 @@ autocmd VimEnter * command! -nargs=* LastVersion
   \ 1d
 
 
-command! Add   call system('git add      ' . shellescape(expand('%'))) | e
-command! Drop  call system('git checkout ' . shellescape(expand('%'))) | e
-command! Reset call system('git reset    ' . shellescape(expand('%'))) | e
+command! Add      call system('git add      ' . shellescape(expand('%'))) | e
+command! Drop     call system('git checkout ' . shellescape(expand('%'))) | e
+command! Reset    call system('git reset    ' . shellescape(expand('%'))) | e
+command! ResetAll call system('git reset    '                           ) | e
 
 " search a hunk
 nnoremap <leader>hs :let @/= "^@@.*$"   <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
