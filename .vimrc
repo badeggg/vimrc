@@ -549,9 +549,16 @@ command! -nargs=? SBuffersBackwardsNoWrap call SearchBuffers(<q-args>, 1, 0) | s
 
 "-------------------------------------------------------------------------
 function! OpenInVSCode()
+    " Get current line and column
+    let l:line = line('.')
+    let l:col = col('.')
+
+    " Construct the --goto argument: filename:line:column
+    let l:target = shellescape(expand('%')) . ':' . l:line . ':' . l:col
+
     " Execute 'code %' but redirect all output to /dev/null
     " The trailing '&' is important to run it in the background.
-    call system('code ' . shellescape(expand('%')) . ' > /dev/null 2>&1 &')
+    call system('code --goto ' . l:target . ' > /dev/null 2>&1 &')
 endfunction
 command! Code call OpenInVSCode()
 "-------------------------------------------------------------------------
