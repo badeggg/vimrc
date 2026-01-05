@@ -46,8 +46,8 @@ vnoremap Y "*y
 
 " Figure out which block we are in, '3' is used since it shares same
 " keyboard location with '#'. Helpful in c files
-nnoremap         <leader>3 :/#e<CR>
-nnoremap <leader><leader>3 :?#if<CR>
+nnoremap         <leader>3 :/^#e\w*<CR>
+nnoremap <leader><leader>3 :?^#if\w*<CR>
 "-------------------------------------------------------------------------
 
 
