@@ -43,6 +43,11 @@ autocmd FileType * setlocal formatoptions-=r formatoptions-=o
 command! Bufnr echo bufnr('%')
 
 vnoremap Y "*y
+
+" Figure out which block we are in, '3' is used since it shares same
+" keyboard location with '#'. Helpful in c files
+nnoremap         <leader>3 :/#e<CR>
+nnoremap <leader><leader>3 :?#if<CR>
 "-------------------------------------------------------------------------
 
 
