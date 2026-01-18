@@ -300,11 +300,11 @@ autocmd VimEnter * command! -nargs=* Show     call TerminalWrapper('git -P show 
 autocmd VimEnter * command! -nargs=* Git      call TerminalWrapper('git '                       .<q-args>,                              0, 1, 0)
 
 " Alternative version, the main version may have gibberish
-autocmd VimEnter * command! -nargs=* Astaged   vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff --cached '.<q-args> | 1d
-autocmd VimEnter * command! -nargs=* Adiff     vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff '.<q-args>.' #'     | 1d
-autocmd VimEnter * command!          Afilehist vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log   -p          #'     | 1d | syn sync minlines=500
-autocmd VimEnter * command! -nargs=* Ashow     vnew | setlocal ft=git buftype=nofile | execute 'read! git    show '.<q-args>          | 1d
-autocmd VimEnter * command! -nargs=* Agit      vnew | setlocal ft=git buftype=nofile | execute 'read! git '        .<q-args>          | 1d
+autocmd VimEnter * command! -nargs=* AStaged   vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff --cached '.<q-args> | 1d
+autocmd VimEnter * command! -nargs=* ADiff     vnew | setlocal ft=git buftype=nofile | execute 'read! git -P diff '.<q-args>.' #'     | 1d
+autocmd VimEnter * command!          AFilehist vnew | setlocal ft=git buftype=nofile | execute 'read! git -P log   -p          #'     | 1d | syn sync minlines=500
+autocmd VimEnter * command! -nargs=* AShow     vnew | setlocal ft=git buftype=nofile | execute 'read! git    show '.<q-args>          | 1d
+autocmd VimEnter * command! -nargs=* AGit      vnew | setlocal ft=git buftype=nofile | execute 'read! git '        .<q-args>          | 1d
 
 autocmd VimEnter * command! -nargs=* LastVersion
   \ let s:ft = &filetype |
