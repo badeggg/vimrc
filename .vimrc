@@ -26,7 +26,7 @@ set backspace=indent,eol,start
 set tags=tags;/
 set re=0
 set laststatus=2
-set statusline=%<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline=[%n]\ %<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
 set encoding=utf-8
 
 " related to plugin 'preservim/tagbar'
