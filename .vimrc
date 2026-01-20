@@ -273,7 +273,7 @@ function! TerminalWrapper(cmd, horizontal, unlimited_width, tab)
     if empty(a:cmd)
         execute term_command
     else
-        let escaped_cmd = escape(a:cmd, '`"$\!\')
+        let escaped_cmd = escape(a:cmd, '"\')
         let term_command = term_command . ' bash -ic "' . escaped_cmd . '"'
         execute term_command
     endif
