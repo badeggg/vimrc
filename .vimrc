@@ -450,7 +450,7 @@ vnoremap    <leader><leader>' "vy:call OpenFile({'use_reg_v_content': 1, 'open_i
 
 
 "-------------------------------------------------------------------------
-" search last search pattern in buffers
+" search last or specified search pattern in buffers
 
 function! BufNrCompareForward(a, b)
     let a_bufnr = a:a.bufnr
