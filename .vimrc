@@ -291,6 +291,42 @@ command! -nargs=* Tt call TerminalWrapper(<q-args>, 1, 0, 1)
 
 
 "-------------------------------------------------------------------------
+" search last or specified search pattern in current or parent dir
+
+function! SearchDirectory(search_pattern, dir, show_result_in_new_tab)
+    let pattern = a:search_pattern
+    if empty(pattern)
+        " Get the last search pattern if not specified
+        let pattern = @/
+    endif
+
+    if empty(pattern)
+        echo "No search pattern found."
+        return
+    endif
+
+    " try to make vim regexp behave same in grep,
+    " long way to go
+    let pattern = substitute(pattern, '^\\V', '', '')
+
+    let escaped_pattern = escape(pattern, '"\')
+    let cmd = "grep -rn \"" . escaped_pattern . "\" " . a:dir
+
+    if a:show_result_in_new_tab
+        call TerminalWrapper(cmd, 1, 0, 1)
+    else
+        call TerminalWrapper(cmd, 0, 1, 0)
+    endif
+endfunction
+
+command! -nargs=? SDir               call SearchDirectory(<q-args>,  '.', 0)
+command! -nargs=? SDirInNewTab       call SearchDirectory(<q-args>,  '.', 1)
+command! -nargs=? SDirParent         call SearchDirectory(<q-args>, '..', 0)
+command! -nargs=? SDirParentInNewTab call SearchDirectory(<q-args>, '..', 1)
+"-------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------
 " git
 
 autocmd VimEnter * command! -nargs=* Staged   call TerminalWrapper('git -P diff --color=always --cached '.<q-args>.' | diff-highlight', 0, 1, 0)
