@@ -103,10 +103,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-fugitive'
+Plug 'bfrg/vim-cpp-modern'
 Plug 'badeggg/indent-jump.vim'
 Plug 'badeggg/goto-module-ts.vim'
 Plug 'badeggg/git-link.vim'
-" Plug 'Makaze/AnsiEsc'
 
 call plug#end()
 "-------------------------------------------------------------------------
