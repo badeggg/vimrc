@@ -47,6 +47,9 @@ vnoremap Y "*y
 " Figure out which block we are in, '3' is used since it shares same
 " keyboard location with '#'. Helpful in c files
 nnoremap <leader>3 :let @/='\v^#(endif\|else\|elif\|ifdef\|ifndef\|if)>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+
+" go to the last alphabet char of current line
+nnoremap # $?[a-zA-Z0-9]<CR>:noh<CR>
 "-------------------------------------------------------------------------
 
 
