@@ -48,8 +48,9 @@ vnoremap Y "*y
 " keyboard location with '#'. Helpful in c files
 nnoremap <leader>3 :let @/='\v^#(endif\|else\|elif\|ifdef\|ifndef\|if)>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
-" go to the last alphabet char of current line
-nnoremap # $?[a-zA-Z0-9]<CR>:noh<CR>
+" go to the last alphanumeric char of current line
+nnoremap #      :call cursor(line('.'), col('$')) \| call search('[a-zA-Z0-9]', 'b', line('.'))<CR>
+vnoremap # :<C-u>call cursor(line('.'), col('$')) \| call search('[a-zA-Z0-9]', 'b', line('.'))<CR>m>gv
 "-------------------------------------------------------------------------
 
 
