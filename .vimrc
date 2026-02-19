@@ -232,6 +232,7 @@ command! PasteFilePathRelative execute "normal! a\<C-R>%\<Esc>"
 command! PasteFilePathAbsolute execute "normal! a\<C-R>=expand('%:p')\<CR>\<Esc>"
 
 command! CopyFileName         execute "let @* = expand('%:t')"
+command! CopyFileNameNoExt    execute "let @* = expand('%:t:r')"
 command! CopyFilePath         execute "let @* = expand('%')"
 command! CopyFilePathRelative execute "let @* = expand('%')"
 command! CopyFilePathAbsolute execute "let @* = expand('%:p')"
