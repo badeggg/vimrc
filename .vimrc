@@ -240,6 +240,21 @@ command! CopyFilePathAbsolute execute "let @* = expand('%:p')"
 
 
 "-------------------------------------------------------------------------
+" In current line, go to next type char, go back to type char
+
+nnoremap <silent> gu :call search('[a-z]',        '', line('.'))<CR>
+nnoremap <silent> gU :call search('[A-Z]',        '', line('.'))<CR>
+nnoremap <silent> gc :call search('[a-zA-Z0-9]',  '', line('.'))<CR>
+nnoremap <silent> gC :call search('[^a-zA-Z0-9]', '', line('.'))<CR>
+
+nnoremap <silent> gbu :call search('[a-z]',        'b', line('.'))<CR>
+nnoremap <silent> gbU :call search('[A-Z]',        'b', line('.'))<CR>
+nnoremap <silent> gbc :call search('[a-zA-Z0-9]',  'b', line('.'))<CR>
+nnoremap <silent> gbC :call search('[^a-zA-Z0-9]', 'b', line('.'))<CR>
+"-------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------
 " convenient commands to close left(h)/down(j)/up(k)/right(l) window
 command! Qh let target_win = winnr('h') | execute target_win . 'wincmd q'
 command! Qj let target_win = winnr('j') | execute target_win . 'wincmd q'
