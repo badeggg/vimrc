@@ -246,11 +246,15 @@ nnoremap <silent> gu :call search('[a-z]',        '', line('.'))<CR>
 nnoremap <silent> gU :call search('[A-Z]',        '', line('.'))<CR>
 nnoremap <silent> gc :call search('[a-zA-Z0-9]',  '', line('.'))<CR>
 nnoremap <silent> gC :call search('[^a-zA-Z0-9]', '', line('.'))<CR>
+nnoremap <silent> gn :call search('[0-9]',        '', line('.'))<CR>
+nnoremap <silent> gN :call search('[^0-9]',       '', line('.'))<CR>
 
 nnoremap <silent> gbu :call search('[a-z]',        'b', line('.'))<CR>
 nnoremap <silent> gbU :call search('[A-Z]',        'b', line('.'))<CR>
 nnoremap <silent> gbc :call search('[a-zA-Z0-9]',  'b', line('.'))<CR>
 nnoremap <silent> gbC :call search('[^a-zA-Z0-9]', 'b', line('.'))<CR>
+nnoremap <silent> gbn :call search('[0-9]',        'b', line('.'))<CR>
+nnoremap <silent> gbN :call search('[^0-9]',       'b', line('.'))<CR>
 "-------------------------------------------------------------------------
 
 
