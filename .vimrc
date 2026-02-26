@@ -108,6 +108,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-fugitive'
 Plug 'bfrg/vim-cpp-modern'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+
 Plug 'badeggg/indent-jump.vim'
 Plug 'badeggg/goto-module-ts.vim'
 Plug 'badeggg/git-link.vim'
@@ -242,6 +245,7 @@ command! CopyFilePathAbsolute execute "let @* = expand('%:p')"
 "-------------------------------------------------------------------------
 " In current line, go to next type char, go back to type char
 
+" todo should support visual mode
 nnoremap <silent> gu :call search('[a-z]',        '', line('.'))<CR>
 nnoremap <silent> gU :call search('[A-Z]',        '', line('.'))<CR>
 nnoremap <silent> gc :call search('[a-zA-Z0-9]',  '', line('.'))<CR>
