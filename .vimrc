@@ -347,10 +347,30 @@ function! SearchDirectory(search_pattern, dir, show_result_in_new_tab)
     endif
 endfunction
 
+" Wrapper to parse '<dir> [pattern]' from a single string argument
+function! SearchSpecifiedDirectory(args, show_result_in_new_tab)
+    " Matchlist regex breakdown:
+    " ^\(\%(\S\|\\\s\)\+\) -> Captures the directory path (Group 1). Handles escaped spaces like 'my\ folder'
+    " \s* -> Ignores the space between the directory and the pattern
+    " \(.*\)               -> Captures the remainder of the string as the pattern (Group 2)
+    let l:matches = matchlist(a:args, '^\(\%(\S\|\\\s\)\+\)\s*\(.*\)$')
+
+    if empty(l:matches) || empty(l:matches[1])
+        echoerr "Invalid arguments. Usage: :SDirSpecified <dir> [pattern]"
+        return
+    endif
+
+    let l:dir = l:matches[1]
+    let l:pattern = l:matches[2]
+
+    " Call your original function with the parsed arguments
+    call SearchDirectory(l:pattern, l:dir, a:show_result_in_new_tab)
+endfunction
+
 command! -nargs=? SDir               call SearchDirectory(<q-args>,  '.', 0)
 command! -nargs=? SDirInNewTab       call SearchDirectory(<q-args>,  '.', 1)
-command! -nargs=? SDirParent         call SearchDirectory(<q-args>, '..', 0)
-command! -nargs=? SDirParentInNewTab call SearchDirectory(<q-args>, '..', 1)
+command! -nargs=+ -complete=dir SDirSpecified         call SearchSpecifiedDirectory(<q-args>, 0)
+command! -nargs=+ -complete=dir SDirSpecifiedInNewTab call SearchSpecifiedDirectory(<q-args>, 1)
 "-------------------------------------------------------------------------
 
 
