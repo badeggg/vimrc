@@ -28,6 +28,8 @@ set re=0
 set laststatus=2
 set statusline=[%n]\ %<%{expand('%:.')}\ %h%w%m%r%=%-14.(%l,%c%V%)\ %P
 set encoding=utf-8
+set shortmess-=S " show search count at right-bottom corner like [3/10]
+set maxsearchcount=999
 
 " related to plugin 'preservim/tagbar'
 nnoremap <F8> :TagbarToggle<CR>
