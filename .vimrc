@@ -709,3 +709,9 @@ command! -nargs=? Narrower execute 'vertical resize ' . GetAmountStr(<q-args>, 1
 command! -nargs=? Higher   execute '         resize ' . GetAmountStr(<q-args>, 0)
 command! -nargs=? Shorter  execute '         resize ' . GetAmountStr(<q-args>, 1)
 "-------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------
+" copy file content
+command! CopyFileContent let @* = join(getline(1, '$'), "\n")
+"-------------------------------------------------------------------------
