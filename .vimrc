@@ -712,6 +712,18 @@ command! -nargs=? Shorter  execute '         resize ' . GetAmountStr(<q-args>, 1
 
 
 "-------------------------------------------------------------------------
-" copy file content
+" copy/paste file content
+
 command! CopyFileContent let @* = join(getline(1, '$'), "\n")
+
+function! s:PasteFileContent()
+    let l:view = winsaveview()
+    silent %delete _
+    silent 0put *
+    silent $delete _
+    let l:view.lnum = min([l:view.lnum, line('$')])
+    call winrestview(l:view)
+endfunction
+
+command! PasteFileContent call s:PasteFileContent()
 "-------------------------------------------------------------------------
