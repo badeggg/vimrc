@@ -148,7 +148,7 @@ command! SyntaxSyncFromstart syntax sync fromstart
 
 "-------------------------------------------------------------------------
 " format current file
-function! FormatCurrentFile()
+function! s:FormatCurrentFile()
     let l:cur_pos = getcurpos()
     let l:content = join(getline(1, '$'), "\n") " Get all content
     let l:filetype = &filetype
@@ -159,7 +159,7 @@ function! FormatCurrentFile()
     if l:filetype =~# '\v^(javascript|typescript|javascriptreact|typescriptreact|json|css|scss|less)$'
         " Use Prettier for JS/TS/CSS/JSON
         let l:formatter_name = 'Prettier'
-        let l:cmd = 'npx prettier --stdin-filepath ' . shellescape(expand('%'))
+        let l:cmd = 'NPM_CONFIG_LOGLEVEL=silent npx prettier --stdin-filepath ' . shellescape(expand('%'))
         let l:success_msg = l:formatter_name . " successfully formatted the file! ✨"
     elseif l:filetype =~# '\v^(c|cpp|h|hpp)$'
         " Use ClangFormat for C/C++
@@ -203,7 +203,7 @@ function! FormatCurrentFile()
     call setpos('.', l:cur_pos)
 endfunction
 
-nmap <leader>f :call FormatCurrentFile()<CR>:w<CR>
+nmap <leader>f :call s:FormatCurrentFile()<CR>:w<CR>
 "-------------------------------------------------------------------------
 
 
