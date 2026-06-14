@@ -203,7 +203,7 @@ function! s:FormatCurrentFile()
     call setpos('.', l:cur_pos)
 endfunction
 
-nmap <leader>f :call s:FormatCurrentFile()<CR>:w<CR>
+nmap <leader>f :call <SID>FormatCurrentFile()<CR>:w<CR>
 "-------------------------------------------------------------------------
 
 
