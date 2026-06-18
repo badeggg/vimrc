@@ -53,6 +53,9 @@ nnoremap <leader>3 :let @/='\v^#(endif\|else\|elif\|ifdef\|ifndef\|if)>'<CR>:set
 " go to the last alphanumeric char of current line
 nnoremap #      :call cursor(line('.'), col('$')) \| call search('[a-zA-Z0-9]', 'bc', line('.'))<CR>
 vnoremap # :<C-u>call cursor(line('.'), col('$')) \| call search('[a-zA-Z0-9]', 'bc', line('.'))<CR>m>gv
+
+" Enable angle bracket matching for % key
+set matchpairs+=<:>
 "-------------------------------------------------------------------------
 
 
