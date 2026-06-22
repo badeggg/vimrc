@@ -235,16 +235,15 @@ endfunction
 
 command! SFileName execute 'call SearchFileName()' | set hlsearch
 
-command! PasteFileName         execute "normal! a\<C-R>=expand('%:t')\<CR>\<Esc>"
-command! PasteFilePath         execute "normal! a\<C-R>%\<Esc>"
-command! PasteFilePathRelative execute "normal! a\<C-R>%\<Esc>"
-command! PasteFilePathAbsolute execute "normal! a\<C-R>=expand('%:p')\<CR>\<Esc>"
+command! Paste2FileNameNoExt    execute "normal! a\<C-R>=expand('%:t:r')\<CR>\<Esc>"
+command! Paste3FileName         execute "normal! a\<C-R>=expand('%:t')\<CR>\<Esc>"
+command! Paste4FilePathRelative execute "normal! a\<C-R>%\<Esc>"
+command! Paste5FilePathAbsolute execute "normal! a\<C-R>=expand('%:p')\<CR>\<Esc>"
 
-command! CopyFileName         execute "let @* = expand('%:t')"
-command! CopyFileNameNoExt    execute "let @* = expand('%:t:r')"
-command! CopyFilePath         execute "let @* = expand('%')"
-command! CopyFilePathRelative execute "let @* = expand('%')"
-command! CopyFilePathAbsolute execute "let @* = expand('%:p')"
+command! Copy2FilePathRelative execute "let @* = expand('%')"
+command! Copy3FilePathAbsolute execute "let @* = expand('%:p')"
+command! Copy4FileName         execute "let @* = expand('%:t')"
+command! Copy5FileNameNoExt    execute "let @* = expand('%:t:r')"
 "-------------------------------------------------------------------------
 
 
@@ -718,7 +717,7 @@ command! -nargs=? Shorter  execute '         resize ' . GetAmountStr(<q-args>, 1
 "-------------------------------------------------------------------------
 " copy/paste file content
 
-command! CopyFileContent let @* = join(getline(1, '$'), "\n")
+command! Copy1FileContent let @* = join(getline(1, '$'), "\n")
 
 function! s:PasteFileContent()
     let l:view = winsaveview()
@@ -729,5 +728,5 @@ function! s:PasteFileContent()
     call winrestview(l:view)
 endfunction
 
-command! PasteFileContent call s:PasteFileContent()
+command! Paste1FileContent call s:PasteFileContent()
 "-------------------------------------------------------------------------
