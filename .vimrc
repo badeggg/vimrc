@@ -115,7 +115,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'bogado/file-line'
+Plug 'wsdjeg/vim-fetch'
 
 Plug 'badeggg/indent-jump.vim'
 Plug 'badeggg/goto-module-ts.vim'
