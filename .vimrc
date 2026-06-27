@@ -65,10 +65,10 @@ set matchpairs+=<:>
 " <leader>S  : search   sensitive non-boundary word
 " <leader>cs : search insensitive     boundary word
 " <leader>cS : search insensitive non-boundary word
-nnoremap <leader>s  :let @/=  '\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap <leader>S  :let @/=    '<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap <leader>cs :let @/='\c\<<C-R><C-W>\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
-nnoremap <leader>cS :let @/=  '\c<C-R><C-W>'  <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap <leader>s  :let @/=  '\<' . expand('<cword>') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap <leader>S  :let @/=         expand('<cword>')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap <leader>cs :let @/='\c\<' . expand('<cword>') . '\>'<CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
+nnoremap <leader>cS :let @/=  '\c' . expand('<cword>')       <CR>:set hlsearch<CR>:call histadd('search', @/)<CR>
 
 function! TrimSpaces(s)
     return substitute(a:s, '^\s*\|\s*$', '', 'g')
