@@ -240,10 +240,10 @@ command! Paste3FileName         execute "normal! a\<C-R>=expand('%:t')\<CR>\<Esc
 command! Paste4FilePathRelative execute "normal! a\<C-R>%\<Esc>"
 command! Paste5FilePathAbsolute execute "normal! a\<C-R>=expand('%:p')\<CR>\<Esc>"
 
-command! Copy2FilePathRelative execute "let @* = expand('%')"
-command! Copy3FilePathAbsolute execute "let @* = expand('%:p')"
-command! Copy4FileName         execute "let @* = expand('%:t')"
-command! Copy5FileNameNoExt    execute "let @* = expand('%:t:r')"
+command! Copy2FilePathRelative execute "let @* = expand('%')"     | echo "Copied: " . @*
+command! Copy3FilePathAbsolute execute "let @* = expand('%:p')"   | echo "Copied: " . @*
+command! Copy4FileName         execute "let @* = expand('%:t')"   | echo "Copied: " . @*
+command! Copy5FileNameNoExt    execute "let @* = expand('%:t:r')" | echo "Copied: " . @*
 "-------------------------------------------------------------------------
 
 
@@ -717,7 +717,7 @@ command! -nargs=? Shorter  execute '         resize ' . GetAmountStr(<q-args>, 1
 "-------------------------------------------------------------------------
 " copy/paste file content
 
-command! Copy1FileContent let @* = join(getline(1, '$'), "\n")
+command! Copy1FileContent let @* = join(getline(1, '$'), "\n") | echo "Copied file content." 
 
 function! s:PasteFileContent()
     let l:view = winsaveview()
