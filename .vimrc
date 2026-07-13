@@ -576,6 +576,8 @@ function! BufNrCompareReverse(a, b)
 endfunction
 
 function! SearchBuffers(search_pattern, backwards, wrap)
+    let l:saved_view = winsaveview()
+
     let pattern = a:search_pattern
     if empty(pattern)
         " Get the last search pattern if not specified
@@ -618,7 +620,10 @@ function! SearchBuffers(search_pattern, backwards, wrap)
         endif
 
         let next_bufname = buf_info.name
+        let l:save_shortmess = &shortmess
+        set shortmess+=A
         execute 'silent! buffer ' . next_bufnr
+        let &shortmess = l:save_shortmess
         if search(pattern, 'wc') > 0
             let found_bufnr = next_bufnr
             break
@@ -627,6 +632,7 @@ function! SearchBuffers(search_pattern, backwards, wrap)
 
     if !found_bufnr
         execute 'b' . s:current_bufnr
+        call winrestview(l:saved_view)
         echohl ErrorMsg
         echom 'Error: Can not find match for ' . pattern
         echohl None
@@ -717,7 +723,7 @@ command! -nargs=? Shorter  execute '         resize ' . GetAmountStr(<q-args>, 1
 "-------------------------------------------------------------------------
 " copy/paste file content
 
-command! Copy1FileContent let @* = join(getline(1, '$'), "\n") | echo "Copied file content." 
+command! Copy1FileContent let @* = join(getline(1, '$'), "\n") | echo "Copied file content."
 
 function! s:PasteFileContent()
     let l:view = winsaveview()
