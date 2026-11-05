@@ -56,6 +56,14 @@ vnoremap # :<C-u>call cursor(line('.'), col('$')) \| call search('[a-zA-Z0-9]', 
 
 " Enable angle bracket matching for % key
 set matchpairs+=<:>
+
+" Disable the .viminfo file creation completely
+set viminfo=
+
+" Disable swap file, backup file, and undo history creation
+set noswapfile
+set nobackup
+set noundofile
 "-------------------------------------------------------------------------
 
 
